@@ -1,0 +1,100 @@
+<html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+  var socket = io();
+
+  socket.on('chat',chat=>{
+    console.log(chat)
+    var t= document.createTextNode(chat.id+": "+chat.data)
+    var h = document.createElement("h2");
+    h.class = 'message'
+    h.appendChild(t)
+    document.getElementById('messages').appendChild(h)// +=(h);
+  })
+
+
+  var sendChat = function(){
+    var text = document.getElementById('m').value;
+    socket.emit("chat",text);
+    document.getElementById('m').value = "";
+
+  
+  }
+
+</script>
+<body>
+  <!-- <h1 id="name"></h1>
+  <div id="chatBox"></div>
+  <input type="text" id="textInput"></input>
+  <input type="button" value="send" id="sendButton" onclick="sendChat()"> -->
+  <!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { 
+        font: 13px Helvetica, Arial; 
+        overflow: hidden;
+        
+        }
+      /* form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; } */
+      /* form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; } */
+      /* form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; } */
+      #messages { 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0;
+        overflow-x: hidden;
+         }
+      #messages h2 { padding: 5px 10px;         width:90vw;
+}
+      #messages h2:nth-child(odd) { background: #eee; }
+
+      .message{
+        width:90vw;
+      }
+      
+      #mainChat{
+        width:90vw;
+        margin-left:5vw;
+        border: 1px solid red;
+        height:70vh;
+        margin-top:10vh;
+        overflow: scroll;  
+        /* scroll-bars */
+
+      }
+
+      #m{
+        margin-top:65vh;
+        width:80vw;
+        height:5vh;
+        position: absolute;
+      }
+
+      #s{
+        margin-top:65vh;
+        margin-left:80vw;
+        width:10vw;
+        height:5vh;
+        background-color:black;
+        text-decoration: none;
+        border: none;
+        color:white;
+        position: absolute;
+
+      }
+      
+
+    </style>
+  </head>
+  <body>
+    <div id="mainChat">
+      <div id="messages"></div>
+      <input id="m" autocomplete="off" />
+      <button id='s' onclick="sendChat()">Send</button>
+    </div>
+</body>
+</html>
