@@ -21,7 +21,7 @@
         rotate(alpha)
     }
       else {
-        alert("Your device is reporting relative alpha values, so this compass won't point north! ");
+        // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
         var heading = 360 - alpha; //heading [0, 360)
         document.getElementById("heading").innerHTML = heading.toFixed([0]);
       }
