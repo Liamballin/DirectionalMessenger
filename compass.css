@@ -23,6 +23,7 @@ body{
     margin-left:2vw;
     margin-top: 2vh;
     -webkit-transform-origin:center;
+    z-index: 50;
 }
 #rotate{
     -webkit-transition: all 0.5s ease-in-out;
@@ -30,6 +31,7 @@ body{
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     -webkit-transform-origin:center;
+    z-index: 50;
 }
 
 #N{
@@ -38,6 +40,7 @@ body{
     position: absolute;
     font-size: 5vw;
     margin-top:-3vw;
+    z-index: 50;
 }
 #S{
     margin-left:8.5vw;
@@ -46,6 +49,7 @@ body{
     font-size: 5vw;
     margin-top:15vw;
     display: none;
+    z-index: 50;
 }
 
 #testMessage{
@@ -109,14 +113,35 @@ body{
     width: 90vw;
     margin-left: 5vw;
     height: 60vh;
-    /* border-top: 3px solid whitesmoke; */
     border-bottom: none;
     border-radius: 5vw;
     margin-top:20vh;
     position: absolute;
-    -webkit-transform-origin: 50% 0%;
-    background-color: rgb(73, 134, 255);
+    -webkit-transform-origin: 50% -10%;
+    background-color: white;
+    display: inline-block;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    opacity: 0;
+}
 
+#currentChat{
+    -webkit-transform: 100deg;
+}
+
+.chatMessage{
+    /* display: list-item; */
+    font-size: 10vw;
+    color: black;
+    background-color: blue;
+    border-radius: 5px;
+}
+
+.title{
+    color: black;
+    font-size: 10vw;
 }
 
 input, input:before, input:after {
