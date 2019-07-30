@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <title>Movement sensor</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        var socket = io();
+
+        function inter
+                (
+                 val, //current value
+                 min1, //start of range that value is in
+                 max1, //end of range that value is in
+                 min2, //start of range to convert value to
+                 max2 //end of range to convert value to
+                 ) 
+        {
+            var res = min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
+            return res;
+        }
+
+
+
+        var loaded = function(){
+            var c = document.getElementById('c');
+            var ctx = c.getContext('2d')
+            window.addEventListener('deviceorientation',handleMove,true)
+            setInterval(()=>{
+                console.log("Drawing...")
+                draw(ctx)
+            }, 50)
+
+            
+
+        }
+
+        var handleMove = function(or){
+            console.log(or)
+            // document.write(or.absolute)
+            document.getElementById('a').innerHTML = Math.round(transAngle(or.alpha, 180)); // around y axis (flat rotatioon)
+            document.getElementById('b').innerHTML = Math.round(or.beta); // around y axis (flat rotatioon)
+            // document.getElementById('G').innerHTML = Math.round(or.gamma); // around y axis (flat rotatioon)
+            document.getElementById("d").innerHTML = dC;
+
+            doAl = or.alpha;
+            doBe = or.beta;
+
+            var out = {
+                lat:
+                lon:
+            }
+            socket.emit('loc',or)
+            
+
+            
+        }
+
+        var doAbs = 0;
+        var doAl = 0;
+        var doBe = 0;
+        var doGa = 0;
+
+        var iAl;
+        var ibe;
+
+        var dC = 0;
+
+
+        var draw =function(c){
+            dC++;
+            c.clearRect(0,0,500,500)
+            c.fillRect(245,245,5,5)
+
+            var px = inter(transAngle(doAl, 180),0,360,0,500);
+            var py = inter(doBe, -180,180,500,0);
+
+
+            c.fillRect(px,py,5,5);
+            c.beginPath()
+            c.moveTo(250,250)
+            c.lineTo(px,py);
+            c.stroke()
+            // c.lineTo(px,px,250,250)
+        }
+
+
+        function transAngle(angle, amount){
+            var o = angle + amount;
+            if(o > 360){
+                o -= 360;
+            }
+            return o;
+        }
+    </script>
+
+    <style>
+        #c{
+            /* position: absolute; */
+            /* margin-left:20vw; */
+            margin: auto;
+        }
+    
+    </style>
+
+<body onload="loaded()">
+
+<canvas id="c" width="500" height="500"></canvas>
+<h1 id="a"></h1>
+<h1 id="b"></h1>
+<h1 id="d"></h1>
+<!-- < -->
+
+</body>
+</html>

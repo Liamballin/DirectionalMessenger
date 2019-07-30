@@ -1,142 +1,80 @@
 var app = require('express')();
+var express = require("express")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 rid = require('readable-id')
 
-
 const port = 3000; //process.env.PORT || 3000 for heroku/local
 const path = require("path")
 
+app.use(express.static(__dirname))  //!Pretty sure this should be changed for security reasons
+
 app.get("/", (req,res)=>{
-    res.sendFile(__dirname + '/index.html')
+    // res.sendFile(__dirname + '/pos.html')
+    console.log("Connection..")
+    res.sendFile(__dirname+'/compass.html')
 })
 
+// app.get("/map",(req,res)=>{
+//     res.sendFile(__dirname+"/map.html")
+// })
+/*
 
+var count = 0;
 
-
-
-// var peers = [];
-var rooms = [];
+peers = [];
 
 io.on('connection',(socket)=>{
-    var address = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
-    console.log(rooms)
-    for(i = 0; i < rooms.length;i++){
-        if(rooms[i].ip == address){
-            rooms[i].peers.push(new Peer(socket, address))
-            return;
-        }
-    }
-
-    var r = new Room(address)
-    r._join(new Peer(socket,address))
-    rooms.push(r)
-    
-    // peers.push()
+    console.log("New connection")
+    peers.push(new Peer(socket))
 })
 
-class Room {
-
-    constructor(ip){
-        this.ip = ip;
-        this.peers = [];
-        this.id = rid();
-    }
-
-    sendToAll(message){
-        for(i = 0; i < this.peers.length; i++){
-            this.peers[i]._sendMessage(message);
-        }
-    }
-
-    _join(peer){
-        console.log(peer.id + " is joining room "+this.id)
-        this.peers.push(peer)
-    }
-
-    // get ip(){
-    //     return this.ip;
-    // }
-}
 
 
-class Peer  {
-    
-    constructor(socket, ip){
+class Peer{
+
+    constructor(socket){
         this.socket = socket;
-        this.ip = ip;
-        this.socket.on('chat',message =>{
-            this._onMessage(message)
+        this.lat;
+        this.lon;
+        this.acc;
+        this.elev;
+        this.id = count;
+        count++;
+
+        this.socket.on("loc",(loc)=>{
+            console.log("Got loc update")
+            console.log(loc.lat)
+            console.log(loc.lon)
+            this.lat = loc.lat;
+            this.lon = loc.lon;
+            this.sendLocation()
+            this.socket.emit("info","hello")
         })
 
-
-        this.socket.on('disconnect',()=>{
-            console.log(this.id +" disconnected.")
+        this.socket.on("start",()=>{
+            console.log("Start key received")
         })
-      
+
         
-        this._lastPing = 0;
-        this.sendTime = 0;
-        this.pingable = true;
-        this.id = rid();
-        console.log("Device "+this.id+" connected on "+this.ip)
-        // this._ping()
-        // setInterval(()=>{
-        //     this._ping()
-        // }, 100);
-        
-    
-        this.socket.emit("name",this.id)
+
+        this.socket.on("error",(e)=>{
+            console.log("Pos error")
+            console.log(e)
+        })
+
+        this.socket.on("disconenct",()=>{
+            console.log("User disconnected")
+        })
     }
-
-    _onMessage(message){
-        var chat = {
-            id:this.id,
-            data:message
-        }
-        for(i = 0; i< rooms.length;i++){
-            if(rooms[i].ip == this.ip){
-                this._sendAll(chat, rooms[i])
-                return;
-            }
-        }
-
+    sendLocation(lat,lon){
+        console.log("Sending update")
+        var o = {index:this.id,coords:{lat:this.lat,lng:this.lon}}
+       io.emit("update",o)
     }
-
-    _sendAll(message, room){
-        for(i = 0; i < room.peers.length;i++){
-            room.peers[i]._sendMessage(message)
-        }
-    }
-
-    _sendMessage(message){
-        this.socket.emit('chat',message)
-    }
-
-    // _ping(){
-    //     if(this.pingable){
-    //         // console.log("pinging "+this.id)
-    //         this.socket.emit('t')
-    //         this.sendTime = process.hrtime();
-    //         this.pingable = false;
-    //     }
-    // }
-    // _pong(time){
-    //     // console.log(time)
-    //     var rT = new Date(time)
-    //     var travelTime = process.hrtime(this.sendTime);
-    //     console.log(travelTime)
-    //     // console.log(this.id+": "+ " %ds %dms", travelTime[0], travelTime[1] / 1000000+" ms");
-    //     this._info(travelTime)
-    //     this.lastPing = time;
-    //     this.pingable = true;
-    // }
-
-    // _info(message){
-    //     this.socket.emit('info', message)
-    // }
 }
 
+*/
 http.listen(3000, ()=>{
     console.log("listning on 3000")
 })

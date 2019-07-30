@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Map view</title>
+        <style>
+                /* Set the size of the div element that contains the map */
+               #map {
+                 height: 400px;  /* The height is 400 pixels */
+                 width: 100%;  /* The width is the width of the web page */
+                }
+             </style>
+    </head>
+
+    <body>
+            <div id="map"></div>
+            <script src="/socket.io/socket.io.js"></script>
+
+            <script>
+
+                var socket = io();
+
+                socket.on("info",(a)=>{
+                    console.log(a)
+                    console.log("Got info")
+                })
+
+
+                window.setInterval(()=>{
+                    updateMap();
+                },1000)
+
+                socket.on("update",list=>{
+                    // for(i=0;i<list.length;i++){
+                        // locs.push(list[i])
+                        console.log("Got new update")
+                        // locs[list[i].index] = list[i].coords
+                        locs[0] = list.coords
+                    // }
+                })
+
+
+
+                var locs = [
+                {lat: -36.85290302000502, lng: 174.76593969513502},
+                ];
+
+        // Initialize and add the map
+        var map;
+function updateMap(){
+    var marker =  new google.maps.Marker({position:locs[0],map:map})
+}
+
+        function initMap() {
+          // The location of Uluru
+          var uluru = {lat: -36.85290302000502, lng: 174.76593969513502};
+          
+
+          // The map, centered at Uluru
+           map = new google.maps.Map(
+              document.getElementById('map'),{zoom:4,center:uluru});
+          // The marker, positioned at Uluru
+          for(i =0; i < locs.length;i++){
+            var marker = new google.maps.Marker({position: locs[i], map: map});
+          }
+          
+        }
+            </script>
+            <!--Load the API from the specified URL
+            * The async attribute allows the browser to render the page while the API loads
+            * The key parameter will contain your own API key (which is not needed for this tutorial)
+            * The callback parameter executes the initMap() function
+            -->
+            <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFrWS8TqUm7lA_--Y1GtHvPl66j0LF7Rs&callback=initMap">
+            </script>
+    </body>
+</html>
