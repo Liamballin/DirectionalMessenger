@@ -11,9 +11,23 @@ app.use(express.static(__dirname))  //!Pretty sure this should be changed for se
 
 app.get("/", (req,res)=>{
     // res.sendFile(__dirname + '/pos.html')
-    console.log("Connection..")
     res.sendFile(__dirname+'/compass.html')
 })
+
+io.on('connection',(socket)=>{
+    console.log("User connected")
+    socket.on("hello", msg=>{
+        console.log("got "+msg.text+" from heading "+msg.heading)
+    })
+    socket.on("msg",(msg)=>{
+        console.log(msg)
+    })
+    socket.on("disconnect",()=>{
+        console.log("User disconneted")
+    })
+})
+
+
 
 // app.get("/map",(req,res)=>{
 //     res.sendFile(__dirname+"/map.html")

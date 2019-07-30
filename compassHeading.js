@@ -1,3 +1,7 @@
+    // var io = top.glob()
+    var socket = top.glob;
+    socket.emit("hello","From compass heading..")
+     
      function inter(
              val, //current value
              min1, //start of range that value is in
@@ -15,26 +19,28 @@
         var alpha;
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
-        alpha = event.webkitCompassHeading; //iOS non-standard
-        var heading = alpha
-        document.getElementById("heading").innerHTML = heading.toFixed([0])+"°";
-        rotate(alpha)
-    }
-      else {
-        // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-        var heading = 360 - alpha; //heading [0, 360)
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-      }
+                alpha = event.webkitCompassHeading; //iOS non-standard
+                var heading = alpha
+                top.heading = alpha;
+                document.getElementById("heading").innerHTML = heading.toFixed([0])+"°";
+                rotate(alpha)
+            }
+            else 
+            {
+                // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
+                var heading = 360 - alpha; //heading [0, 360)
+                document.getElementById("heading").innerHTML = heading.toFixed([0]);
+            }
 
-    // if (window.DeviceOrientationAbsoluteEvent) {
-    //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
-    // } // If not, check if the device sends any orientation data
-    // else if(window.DeviceOrientationEvent){
-    //   window.addEventListener("deviceorientation", deviceOrientationListener);
-    // } // Send an alert if the device isn't compatible
-    // else {
-    //   alert("Sorry, try again on a compatible mobile device!");
-    // }
+        // if (window.DeviceOrientationAbsoluteEvent) {
+        //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
+        // } // If not, check if the device sends any orientation data
+        // else if(window.DeviceOrientationEvent){
+        //   window.addEventListener("deviceorientation", deviceOrientationListener);
+        // } // Send an alert if the device isn't compatible
+        // else {
+        //   alert("Sorry, try again on a compatible mobile device!");
+        // }
       
         var message = document.getElementById('testMessage');
         var messageAngle = 100;
@@ -47,9 +53,7 @@
         //     document.getElementById('testMessage').style.opacity = 0;//innerHTML = "Test message";
         // }
 
-   
-
-})  
+    })  
 
     function rotate(deg){
         var div = document.getElementById("compassRing")
