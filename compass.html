@@ -3,74 +3,16 @@
         <title>B</title>
 
         <link rel="stylesheet" type="text/css" href="compass.css">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <!-- <meta name="viewport" content="width=device-width, user-scalable=no" /> -->
+        <meta name="viewport" content="user-scalable=no" />
+        
+        <script src="compassHeading.js"></script>
     </head>
-    <script>
-function inter(
-             val, //current value
-             min1, //start of range that value is in
-             max1, //end of range that value is in
-             min2, //start of range to convert value to
-             max2 //end of range to convert value to
-            ) 
-            {
-            var res = min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
-            return res;
-            }
-
-
-
-        var alpha;
-        window.addEventListener('deviceorientation', function(event) {
-            if (typeof event.webkitCompassHeading !== "undefined") {
-        alpha = event.webkitCompassHeading; //iOS non-standard
-        var heading = alpha
-        document.getElementById("heading").innerHTML = heading.toFixed([0])+"°";
-        rotate(alpha)
-    }
-      else {
-        alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-        var heading = 360 - alpha; //heading [0, 360)
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-      }
-
-    // if (window.DeviceOrientationAbsoluteEvent) {
-    //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
-    // } // If not, check if the device sends any orientation data
-    // else if(window.DeviceOrientationEvent){
-    //   window.addEventListener("deviceorientation", deviceOrientationListener);
-    // } // Send an alert if the device isn't compatible
-    // else {
-    //   alert("Sorry, try again on a compatible mobile device!");
-    // }
-      
-        var message = document.getElementById('testMessage');
-        var messageAngle = 100;
-
-        var distance = Math.floor(Math.abs(alpha-messageAngle))
-
-        if(distance < 10){
-            document.getElementById('testMessage').style.opacity = inter(distance,0,10,1,0);//innerHTML = distance//style.opacity = str(inter(Math.abs(alpha-messageAngle),0,10,0,1));
-        }else{
-            document.getElementById('testMessage').style.opacity = 0;//innerHTML = "Test message";
-        }
-
-        // if(alpha >= 100){
-        //     document.getElementById("testMessage").innerHTML = alpha;
-        // }
-
-})  
-
-    function rotate(deg){
-        var div = document.getElementById("compassRing")
-        div.style.webkitTransform = 'rotate('+deg+"deg)"
-
-
-    }
-    </script>
-
     <body>
         
-        <svg id = 'userIcon' role="img" xmlns="https://www.w3.org/2000/svg" width="200" height="200" viewbox="0 0 24 24">
+        <svg id = 'userIcon' role="img" xmlns="https://www.w3.org/2000/svg" width="100" height="100" viewbox="0 0 24 24">
             
             <path d = "M4,20 C4,17 8,17 10,15 C11,14 8,14 8,9 C8,5.667 9.333,4 12,4 C14.667,4 16,5.667 16,9 C16,14 13,14 14,15 C16,17 20,17 20,20"></path>
         
@@ -84,8 +26,16 @@ function inter(
 
             </div>
         </div>
+        <input type="text" id="textInput" name="name">
+        <div class="chat">
+            <!-- <h1 class="message" id="testMessage">Hello there</h1> -->
 
-    <h1 id="testMessage">Test Message</h1>
+        </div>
+
+        <!-- <input id="textInput" type="text" value=""/> -->
+        
+
+    
 
     </body>
 </html>
