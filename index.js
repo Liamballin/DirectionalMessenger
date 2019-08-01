@@ -4,7 +4,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 rid = require('readable-id')
 
-const port = 3000; //process.env.PORT || 3000 for heroku/local
+const port = process.env.PORT || 3000;//// for heroku/local
 const path = require("path")
 
 app.use(express.static(__dirname))  //!Pretty sure this should be changed for security reasons
@@ -89,6 +89,6 @@ class Peer{
 }
 
 */
-http.listen(3000, ()=>{
+http.listen(port, ()=>{
     console.log("listning on 3000")
 })

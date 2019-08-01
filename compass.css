@@ -3,6 +3,7 @@ body{
         background-color: #276DF7;
         color: whitesmoke;
         font-family: sans-serif;
+        position: fixed;
 }
 #heading{
     font-family: 'Courier New', Courier, monospace;
@@ -12,6 +13,7 @@ body{
     margin-top: 11vw;
     margin-left: 9vw;
     position: absolute;
+    z-index: 100;
 
 }
 #compassRing{
@@ -117,14 +119,16 @@ body{
     border-radius: 5vw;
     margin-top:20vh;
     position: absolute;
-    -webkit-transform-origin: 50% -10%;
+    -webkit-transform-origin: 50% 50%;
     background-color: white;
     display: inline-block;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -o-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     opacity: 0;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
 
 #currentChat{
@@ -137,6 +141,7 @@ body{
     color: black;
     background-color: blue;
     border-radius: 5px;
+    position:relative;
 }
 
 .title{

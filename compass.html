@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Directional Messaging</title>
+        <title>a direct message</title>
 
         <link rel="stylesheet" type="text/css" href="compass.css">
         <link rel="manifest" href="/manifest.json">
@@ -16,6 +16,8 @@
         </script>
         <script src="compassHeading.js"></script>
         <script src="chatScript.js"></script>
+        <script src="scrollLock.js"></script>
+        
         
     </head>
 
@@ -42,5 +44,14 @@
                     <!-- <h1 class="message" id="testMessage">Hello there</h1> -->
             </div>
         </div>
+        <script>
+                // const targets = document.getElementsByClassName("chat");
+    
+                // for(i = 0; i < targets.length;i++){
+                //     bodyScrollLock.disableBodyScroll(targets[i])
+                // }
+                const target = document.getElementById("testChat")
+                bodyScrollLock.disableBodyScroll(target)
+            </script>
     </body>
 </html>

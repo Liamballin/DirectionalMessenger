@@ -1,0 +1,26 @@
+{
+  "name": "a_direct_message",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-scroll-lock": "^2.6.4",
+    "express": "^4.17.1",
+    "readable-id": "^1.0.0",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liamballin/DirectionalMessenger.git"
+  },
+  "author": "Liam Ball",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Liamballin/DirectionalMessenger/issues"
+  },
+  "homepage": "https://github.com/Liamballin/DirectionalMessenger#readme"
+}

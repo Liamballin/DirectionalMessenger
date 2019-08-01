@@ -6,11 +6,37 @@
     var chats = [
         {
             name:"testChat",    //!this should be a UUID? to identify which person moved??
-            heading:200,
+            heading:00,
             messages:[
                 {
-                    text:"test message!!",
-                    time:"123456"
+                    text:"Heading 00",
+                    time:"123456",
+                    sender:"user1"
+                },
+                {
+                    text:"Whats up",
+                    time:"123456",
+                    sender:"user2"
+                },
+                {
+                    text:"not much wbu",
+                    time:"123456",
+                    sender:"user1"
+                },
+                {
+                    text:"sick dtf",
+                    time:"123456",
+                    sender:"user2"
+                },
+                {
+                    text:"forsure",
+                    time:"123456",
+                    sender:"user1"
+                },
+                {
+                    text:"👌👌👌👌👌👌👌👌👌👌",
+                    time:"123456",
+                    sender:"user2"
                 }
             ]
         },
@@ -19,7 +45,7 @@
             heading:270,
             messages:[
                 {
-                    text:"from CHAT 2WOOO!!",
+                    text:"heading 270;from CHAT 2WOOO!!",
                     time:"1236636"
                 }
             ]
@@ -29,7 +55,7 @@
             heading:100,
             messages:[
                 {
-                    text:"from CHAT THEE!!",
+                    text:"heading 100;from CHAT THEE!!",
                     time:"1236636"
                 }
             ]
@@ -51,6 +77,7 @@
 
 
         var alpha;
+        var currentChat;
        
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
@@ -102,6 +129,10 @@
         div.style.webkitTransform = 'rotate('+deg+"deg)"
         
         // var chat = document.getElementById("currentChat")
+        // var distance = (Math.abs(alpha - chatHeading));
+
+
+
         // var heading = deg;
         // var distance = Math.floor(Math.abs(heading-chatAngle))
         // document.getElementById("sendButton").value = distance;
@@ -119,7 +150,7 @@
     function createChats(){
         var chatParent = document.getElementById("chatParent");
         for(i =0; i<chats.length;i++){
-            console.log("Creating chat "+i)
+            // console.log("Creating chat "+i)
 
             var newChat = document.createElement("div")
             newChat.className = "chat"
@@ -127,7 +158,7 @@
 
             for(ii =0; ii< chats[i].messages.length;ii++){
                 var newText = document.createTextNode(chats[i].messages[ii].text);
-                var newMessage = document.createElement("div");
+                var newMessage = document.createElement("H1");
                 newMessage.className = "chatMessage";
                 newMessage.appendChild(newText);
                 newChat.appendChild(newMessage)
@@ -136,6 +167,7 @@
             var title = document.createTextNode(chats[i].name)
             title.class = "title"
             newChat.append(title)
+            // newChat.style.webkitTransform = "rotate("[i].heading+"deg)"
             chatParent.appendChild(newChat)
         }
     }
@@ -146,26 +178,25 @@
         var visibleThreshholdDegrees = 20;
 
         for(i=0;i<chats.length;i++){
-            // console.log("testing "+chats[i].name)
-            // console.log("-------------")
-            // console.log("Heading "+alpha+", chat1: "+chats[0].heading+", chat2: "+chats[1].heading)
-            // console.log("-------------")
             var chatHeading = chats[i].heading;
             //get opposite angle instead of matching
             var distance = (Math.abs(alpha - chatHeading));
-            // console.log(distance+" from chat "+chats[i].name)
 
             if( distance < visibleThreshholdDegrees){
                 // console.log("Within 10deg of "+chats[i].name)
                 var newOpacity = inter(distance, 0, visibleThreshholdDegrees,1,0)
                 document.getElementById(chats[i].name).style.opacity = newOpacity;
-
+                currentChat = document.getElementById(chats[i].name);
+                var degrees = inter(distance,0,10,45,0);
+                document.getElementById(chats[i].name).style.webkitTransform = "rotate("+(alpha)+"deg)";
             }else{
+
                 // console.log("Not close to any chats")
                 // console.log("Alpha = "+alpha)
                 // console.log("chat heading = "+chatHeading)
                 // document.getElementsByName(chats[i].name).style.opacity = 0;
                 document.getElementById(chats[i].name).style.opacity = 0;
+                // document.getElementById(chats[i].name).style.webkitTransform = "rotate(180deg)";
 
 
             }
