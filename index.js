@@ -90,5 +90,5 @@ class Peer{
 
 */
 http.listen(port, ()=>{
-    console.log("listning on 3000")
+    console.log("listning on "+port)
 })

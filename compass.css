@@ -20,12 +20,27 @@ body{
     width: 20vw;
     height:20vw;
     border-radius: 200vw;
-    border: 5px solid whitesmoke;
+    border: 0.6vw solid whitesmoke;
     position: absolute;
     margin-left:2vw;
     margin-top: 2vh;
     -webkit-transform-origin:center;
     z-index: 50;
+}
+
+#accuracyCircle{
+    width: 20vw;
+    height:20vw;
+    border-radius: 200vw;
+    position: absolute;
+    /* margin-left:-0.6vw; */
+    margin-top: 0vh;
+    z-index: 40;
+    background-color: white;
+    -webkit-transform-origin:center;
+    opacity: 0.25;
+    /* border: 0.6vw solid white; */
+
 }
 #rotate{
     -webkit-transition: all 0.5s ease-in-out;
@@ -119,8 +134,8 @@ body{
     border-radius: 5vw;
     margin-top:20vh;
     position: absolute;
-    -webkit-transform-origin: 50% 50%;
-    background-color: white;
+    -webkit-transform-origin: 50% 200%;
+    background-color: none;
     display: inline-block;
     -webkit-transition: all 0.4s ease-in-out;
     -moz-transition: all 0.4s ease-in-out;
@@ -137,11 +152,32 @@ body{
 
 .chatMessage{
     /* display: list-item; */
-    font-size: 10vw;
-    color: black;
-    background-color: blue;
-    border-radius: 5px;
+    font-size: 3.5vw;
+    width: 60vw;
+    padding:2vw;
+    font-weight: lighter;
+    color: white;
+    background-color: rgb(109, 167, 255);
+    /* width: 5vw; */
+    border-radius: 5vw;
     position:relative;
+    /* background */
+}
+
+.chatMessageSent{
+        /* display: list-item; */
+        font-size: 3.5vw;
+        width: 60vw;
+        padding:2vw;
+        font-weight: lighter;
+        color: black;
+        background-color: rgb(109, 167, 255);
+        /* width: 5vw; */
+        border-radius: 5vw;
+        position:relative;
+        margin-left:20vw;
+        text-align: right;
+        /* background */
 }
 
 .title{

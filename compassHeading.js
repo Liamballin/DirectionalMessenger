@@ -11,30 +11,30 @@
                 {
                     text:"Heading 00",
                     time:"123456",
-                    sender:"user1"
+                    sender:"me"
                 },
                 {
-                    text:"Whats up",
+                    text:"MEssage 1 this a long message to test whether this element should be a div or a text element like H1",
                     time:"123456",
                     sender:"user2"
                 },
                 {
-                    text:"not much wbu",
+                    text:"another message",
                     time:"123456",
-                    sender:"user1"
+                    sender:"me"
                 },
                 {
-                    text:"sick dtf",
+                    text:"the third message",
                     time:"123456",
                     sender:"user2"
                 },
                 {
-                    text:"forsure",
+                    text:"four four",
                     time:"123456",
-                    sender:"user1"
+                    sender:"me"
                 },
                 {
-                    text:"👌👌👌👌👌👌👌👌👌👌",
+                    text:"👌👌👌👌",
                     time:"123456",
                     sender:"user2"
                 }
@@ -46,7 +46,8 @@
             messages:[
                 {
                     text:"heading 270;from CHAT 2WOOO!!",
-                    time:"1236636"
+                    time:"1236636",
+                    sender:"me"
                 }
             ]
         },
@@ -56,7 +57,8 @@
             messages:[
                 {
                     text:"heading 100;from CHAT THEE!!",
-                    time:"1236636"
+                    time:"1236636",
+                    sender:"user69"
                 }
             ]
         }
@@ -77,12 +79,17 @@
 
 
         var alpha;
+        var accuracy;
         var currentChat;
+        var compassMode; //! 1 = iphone - actual magnetic compass
+                         //! 2 = android - calibrated accelleromter
+                         //! 3 = desktop - completely manual compass
        
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
                 var alpha = event.webkitCompassHeading; //iOS non-standard
-                onDeviceMove(alpha)
+                var accuracy = event.webkitCompassAccuracy;
+                onDeviceMove(alpha,accuracy)
             }
             else 
             {
@@ -114,12 +121,20 @@
 
     })  
 
-    function onDeviceMove(alpha){
+    function onDeviceMove(alpha, accuracy){
         var heading = alpha
         top.heading = alpha;
         document.getElementById("heading").innerHTML = heading.toFixed([0])+"°";
         rotateCompass(alpha);
+        updateAccuracy(accuracy);
         updateChatOpacity(alpha);
+    }
+
+    function updateAccuracy(acc){
+        var newSize = inter(acc,0,15,1,0)
+        // newSize = 5;
+        document.getElementById("accuracyCircle").style.webkitTransform = "scale("+newSize+")"
+        document.getElementById("sendButton").value = acc;
     }
 
     function rotateCompass(deg){
@@ -159,16 +174,22 @@
             for(ii =0; ii< chats[i].messages.length;ii++){
                 var newText = document.createTextNode(chats[i].messages[ii].text);
                 var newMessage = document.createElement("H1");
-                newMessage.className = "chatMessage";
+                if(chats[i].messages[ii].sender == "me"){
+                    newMessage.className = "chatMessageSent";
+                }else{
+                    newMessage.className = "chatMessage";
+                }
+                
                 newMessage.appendChild(newText);
                 newChat.appendChild(newMessage)
             }
 
-            var title = document.createTextNode(chats[i].name)
-            title.class = "title"
-            newChat.append(title)
-            // newChat.style.webkitTransform = "rotate("[i].heading+"deg)"
+            // var title = document.createTextNode(chats[i].name)
+            // title.className = "title"
+            // newChat.append(title)
             chatParent.appendChild(newChat)
+            // document.getElementById(newChat.id).style.webkitTransform = "rotate("+getOppAngle([i].heading)+"deg)"
+
         }
     }
 
@@ -188,7 +209,7 @@
                 document.getElementById(chats[i].name).style.opacity = newOpacity;
                 currentChat = document.getElementById(chats[i].name);
                 var degrees = inter(distance,0,10,45,0);
-                document.getElementById(chats[i].name).style.webkitTransform = "rotate("+(alpha)+"deg)";
+                // document.getElementById(chats[i].name).style.webkitTransform = "rotate("+(alpha*-1)+"deg)";
             }else{
 
                 // console.log("Not close to any chats")
