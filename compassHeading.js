@@ -1,6 +1,4 @@
-    // var io = top.glob()
-    var socket = top.glob;
-    // socket.emit("hello","From compass heading..")
+    var socket = top.glob;  // import the same socket instance that is already initialized.
 
 
     var chats = [
@@ -63,63 +61,128 @@
             ]
         }
     ]
+
+    function inter(
+        val, //current value
+        min1, //start of range that value is in
+        max1, //end of range that value is in
+        min2, //start of range to convert value to
+        max2 //end of range to convert value to
+       ) 
+       {
+       var res = min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
+       return res;
+       }
+    //----------------------------------------
      
-     function inter(
-             val, //current value
-             min1, //start of range that value is in
-             max1, //end of range that value is in
-             min2, //start of range to convert value to
-             max2 //end of range to convert value to
-            ) 
-            {
-            var res = min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
-            return res;
-            }
 
 
 
-        var alpha;
+
+        var alpha =0;
         var accuracy;
         var currentChat;
+        var lastScroll;
         var compassMode; //! 1 = iphone - actual magnetic compass
                          //! 2 = android - calibrated accelleromter
                          //! 3 = desktop - completely manual compass
+        function test1(){
+            compassMode = 1;
+            // window.removeEventListener('deviceorientation', test1)
+            console.log("mode 1")
+            alpha = 0;
+            setCompass();
+        }
+        function test2(){
+            compassMode = 3;
+            console.log("mode 2")
+            // window.removeEventListener('deviceorientation', test2)
+            setCompass();
+        }
+
+        function detectCompassMode(){
+            console.log("Detecting compass mode..")
+            var test = window.addEventListener("deviceorientation", (evt)=>{
+                if(typeof event.webkitCompassHeading !== "undefined"){
+                   test1();
+                }else{
+                    test2();
+
+                }
+            })
+            
+        }
+
+        function setCompass(){
+            if(compassMode == 1){
+                console.log("Adding magnetic compass listener")
+            window.addEventListener('deviceorientation', function(event) {
+                if (typeof event.webkitCompassHeading !== "undefined") {
+                    var alpha = event.webkitCompassHeading; //iOS non-standard
+                    var accuracy = event.webkitCompassAccuracy;
+                    onDeviceMove(alpha,accuracy)
+                }
+                else 
+                {
+                    // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
+                    var heading = 360 - alpha; //heading [0, 360)
+                    document.getElementById("heading").innerHTML = heading.toFixed([0]);
+                }
+    
+            // if (window.DeviceOrientationAbsoluteEvent) {
+            //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
+            // } // If not, check if the device sends any orientation data
+            // else if(window.DeviceOrientationEvent){
+            //   window.addEventListener("deviceorientation", deviceOrientationListener);
+            // } // Send an alert if the device isn't compatible
+            // else {
+            //   alert("Sorry, try again on a compatible mobile device!");
+            // }
+          
+            var message = document.getElementById('testMessage');
+            var messageAngle = 100;
+    
+            var distance = Math.floor(Math.abs(alpha-messageAngle))
+    
+            // if(distance < 10){
+            //     document.getElementById('testMessage').style.opacity = inter(distance,0,10,1,0);//innerHTML = distance//style.opacity = str(inter(Math.abs(alpha-messageAngle),0,10,0,1));
+            // }else{
+            //     document.getElementById('testMessage').style.opacity = 0;//innerHTML = "Test message";
+            // }
+    
+        })  
+        }else{
+            console.log("adding scroll listener")
+            window.addEventListener("wheel", (event)=>{
+                var delta = Math.sign(event.deltaY);
+                alpha += delta*2;
+
+                if(alpha >= 360){
+                    alpha = 0;
+
+                }else if(alpha < 0){
+                    alpha = 360;
+                }
+                onDeviceMove(alpha)
+            })
+            // window.addEventListener("scroll",function(){
+            //     console.log("click triggered")
+            //     console.log(alpha)
+            //     if(typeof alpha === 'NaN'){
+            //         alpha = 0
+            //     }
+            //     alpha+=2;
+            //     if(alpha >= 360){
+            //         alpha = 0;
+            //     }
+            //     console.log("Adjusting alpha with scroll: "+alpha)
+            //     lastScroll = window.scrollY;
+            //     onDeviceMove(alpha)
+            // }, false)
+        }
+        }
        
-        window.addEventListener('deviceorientation', function(event) {
-            if (typeof event.webkitCompassHeading !== "undefined") {
-                var alpha = event.webkitCompassHeading; //iOS non-standard
-                var accuracy = event.webkitCompassAccuracy;
-                onDeviceMove(alpha,accuracy)
-            }
-            else 
-            {
-                // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-                var heading = 360 - alpha; //heading [0, 360)
-                document.getElementById("heading").innerHTML = heading.toFixed([0]);
-            }
 
-        // if (window.DeviceOrientationAbsoluteEvent) {
-        //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
-        // } // If not, check if the device sends any orientation data
-        // else if(window.DeviceOrientationEvent){
-        //   window.addEventListener("deviceorientation", deviceOrientationListener);
-        // } // Send an alert if the device isn't compatible
-        // else {
-        //   alert("Sorry, try again on a compatible mobile device!");
-        // }
-      
-        var message = document.getElementById('testMessage');
-        var messageAngle = 100;
-
-        var distance = Math.floor(Math.abs(alpha-messageAngle))
-
-        // if(distance < 10){
-        //     document.getElementById('testMessage').style.opacity = inter(distance,0,10,1,0);//innerHTML = distance//style.opacity = str(inter(Math.abs(alpha-messageAngle),0,10,0,1));
-        // }else{
-        //     document.getElementById('testMessage').style.opacity = 0;//innerHTML = "Test message";
-        // }
-
-    })  
 
     function onDeviceMove(alpha, accuracy){
         var heading = alpha
@@ -236,6 +299,7 @@
 
     //run on startup:
     function onLoad(){
+        detectCompassMode();
         createChats();
     }
     
