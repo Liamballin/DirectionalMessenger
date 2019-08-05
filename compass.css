@@ -87,12 +87,14 @@ body{
 }
 
 #textInput{
-    width:80vw;
-    border-radius: 5vw;
+    width:70vw;
+    /* border-: 5vw; */
+    border-top-left-radius: 5vw;
+    border-bottom-left-radius: 5vw;
     border: 5px solid white;
-    margin-top: 65vh;
+    margin-top: 75vh;
     height: 5vh;
-    margin-left: 10vw;
+    margin-left: 5vw;
     z-index: 100;
     position: absolute;
     font-size: 30pt;
@@ -101,7 +103,7 @@ body{
 }
 #sendButton{
 
-    width:40vw;
+    width:20vw;
     height: 5vh;
     font-size: 5vw;
     display: inline-block;
@@ -115,21 +117,34 @@ body{
     -webkit-appearance: none;
     -moz-appearance: none;
     position: absolute;
-    margin-top: 73vh;
-    margin-left: 30vw;
-    border-radius: 20pt;
+    margin-top: 75vh;
+    margin-left: 73vw;
+    border-top-right-radius: 5vw;
+    border-bottom-right-radius: 5vw;
+    border-left: 4px solid #276DF7;
     vertical-align: middle;
     z-index: 100;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-transform-origin:center;
     
 }
+#sendButton:disabled{
+    /* background-color:rgb(36, 71, 143); */
+    color:rgba(39, 108, 247, 0.212);
+}
+
 
 #chatFade{
     position: absolute;
     left:0vw;
-    top:-5vh;
+    top:14vh;
     width:100vw;
-    height:30vh;
+    height:25vh;
     /* background-color: bisque; */
+    /* border: 3px solid red; */
     z-index: 10;
     background-image: linear-gradient(rgba(39, 109, 247,1),rgba(39, 109, 247,0));
 }
@@ -137,10 +152,10 @@ body{
 .chat{
     width: 90vw;
     margin-left: 5vw;
-    height: 60vh;
+    height: 55vh;
     border-bottom: none;
     border-radius: 5vw;
-    margin-top:20vh;
+    margin-top:15vh;
     position: absolute;
     -webkit-transform-origin: 50% 200%;
     background-color: none;
@@ -150,12 +165,14 @@ body{
     -o-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
     opacity: 0;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x:hidden;
     flex-direction: column;
     align-content: flex-end;
     max-height: 60vh;
     display: flex;
+    /* border: 10px solid white; */
+    vertical-align: baseline;
 }
 
 #currentChat{
@@ -173,6 +190,8 @@ body{
     /* width: 5vw; */
     border-radius: 5vw;
     position:relative;
+    vertical-align: bottom;
+    /* display: list-item; */
     /* background */
 }
 
@@ -182,7 +201,7 @@ body{
         width: 60vw;
         padding:2vw;
         font-weight: lighter;
-        color: black;
+        color: white;
         background-color: rgb(109, 167, 255);
         /* width: 5vw; */
         border-radius: 5vw;

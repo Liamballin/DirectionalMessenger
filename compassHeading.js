@@ -1,3 +1,4 @@
+
     var socket = top.glob;  // import the same socket instance that is already initialized.
 
 
@@ -154,6 +155,8 @@
         rotateCompass(alpha);
         updateAccuracy(accuracy);
         updateChatOpacity(alpha);
+
+        // document.getElementById("sendButton").disabled = (currentChat == undefined);
     }
 
     function updateAccuracy(acc){
@@ -176,30 +179,8 @@
     }
 
     function createChats(){
-        var chatParent = document.getElementById("chatParent");
         for(i =0; i<chats.length;i++){
-            // console.log("Creating chat "+i)
-
-            var newChat = document.createElement("div")
-            newChat.className = "chat"
-            newChat.id = chats[i].name;
-
-            for(ii =0; ii< chats[i].messages.length;ii++){
-                var newText = document.createTextNode(chats[i].messages[ii].text);
-                var newMessage = document.createElement("H1");
-                if(chats[i].messages[ii].sender == "me"){
-                    newMessage.className = "chatMessageSent";
-                }else{
-                    newMessage.className = "chatMessage";
-                }
-                
-                newMessage.appendChild(newText);
-                newChat.appendChild(newMessage)
-            }
-
-            chatParent.appendChild(newChat)
-            // document.getElementById(newChat.id).style.webkitTransform = "rotate("+getOppAngle([i].heading)+"deg)"
-
+            createChatElement(chats[i])
         }
     }
 
@@ -233,26 +214,104 @@
 
     //---------------------- chat stuff ----------------
 
+    var lastScroll = 0;
+
     function sendChat(){
         var chatText = document.getElementById('textInput').value;
         document.getElementById('textInput').value = "";
-
+        
         if(currentChat){
-            var chatWindow = currentChat//document.getElementById(currentChat);
-            var textNode = document.createTextNode(chatText)
-            var chatMessage = document.createElement('h1');
-            chatMessage.className = 'chatMessageSent'
-            chatMessage.appendChild(textNode)
-            chatWindow.appendChild(chatMessage)
-            socket.emit("msg",{text:chatText,heading:top.heading})
-            // }else{
-            //     console.log("Current chat was undefined")
-            // }
+
+            addMessageToChat(chatText, currentChat.id, "me")
+
         }else{
-            alert("no chat selected!")
+            createNewChat(alpha).then(nn=>{
+                // currentChat = nn;
+                addMessageToChat(chatText, nn, "me");
+                currentChat = document.getElementById(nn)
+                updateChatOpacity()
+                console.log(chats)
+            });
+            
+            
+            
         }
     
         
+    }
+
+    function createNewChat(heading){
+        return new Promise((resolve,reject)=>{
+            var nn = uuid.v1();
+            console.log("making new chat with name "+nn)
+            var nc = chatObjectConstructor(nn, heading)
+            chats.push(nc);
+            createChatElement(nc).then(()=>{
+                socket.emit("new",{name:nn,heading:heading})
+        
+            })
+            
+    
+    
+            resolve(nn);
+        })
+
+
+    }
+
+    function createChatElement(chatObject){
+        return new Promise((resolve,reject)=>{
+            var chatParent = document.getElementById("chatParent");
+            var newChat = document.createElement("div")
+            newChat.className = "chat"
+            newChat.id = chatObject.name;
+            for(ii = 0; ii < chatObject.messages.length; ii++){
+                var newText = document.createTextNode(chatObject.messages[ii].text);
+                var newMessage = document.createElement("H1");
+                if(chatObject.messages[ii].sender == "me"){
+                    newMessage.className = "chatMessageSent";
+                }else{
+                    newMessage.className = "chatMessage";
+                }
+                newMessage.appendChild(newText);
+                newChat.appendChild(newMessage)
+            }
+            chatParent.appendChild(newChat)    
+            resolve()   
+        })
+        
+    }
+    
+
+    function chatObjectConstructor(name, heading){
+        return {
+            name:name,
+            heading:heading,
+            messages:[]
+        }
+    }
+
+    function addMessageToChat(message, chatName, sender){
+        var chatWindow = document.getElementById(chatName);//currentChat//document.getElementById(currentChat);
+        var textNode = document.createTextNode(message)
+        var chatMessage = document.createElement('h1');
+
+        if(sender == "me"){
+        chatMessage.className = 'chatMessageSent'
+        }else{
+            chatMessage.className = "chatMessage"
+        }
+        chatMessage.appendChild(textNode)
+        chatWindow.appendChild(chatMessage)
+        socket.emit("msg",{text:message,heading:alpha})
+        let scroll = 100+lastScroll;
+        chatWindow.scroll({
+            top: scroll,
+            // left: 100,
+            behavior: 'smooth'
+          });
+
+          lastScroll = scroll;
     }
 
 
