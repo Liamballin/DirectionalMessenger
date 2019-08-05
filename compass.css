@@ -1,6 +1,6 @@
 body{
         overflow:hidden;
-        background-color: #276DF7;
+        background-color: rgb(39, 109, 247);
         color: whitesmoke;
         font-family: sans-serif;
         position: fixed;
@@ -121,9 +121,17 @@ body{
     vertical-align: middle;
     z-index: 100;
     
+}
 
-
-
+#chatFade{
+    position: absolute;
+    left:0vw;
+    top:-5vh;
+    width:100vw;
+    height:30vh;
+    /* background-color: bisque; */
+    z-index: 10;
+    background-image: linear-gradient(rgba(39, 109, 247,1),rgba(39, 109, 247,0));
 }
 
 .chat{
@@ -144,6 +152,10 @@ body{
     opacity: 0;
     overflow-y: auto;
     overflow-x:hidden;
+    flex-direction: column;
+    align-content: flex-end;
+    max-height: 60vh;
+    display: flex;
 }
 
 #currentChat{

@@ -16,7 +16,6 @@
         </script>
         <script src="compassHeading.js"></script>
         <script src="chatScript.js"></script>
-        <script src="scrollLock.js"></script>
         
         
     </head>
@@ -40,19 +39,10 @@
 
         <input type="text" id="textInput" name="name">
         <input type="button" id="sendButton" name='asd' value="Send" onclick="sendChat()">
+        <div id="chatFade"></div>
         <div id="chatParent">
-            <!-- <div class="chat" id="currentChat"> -->
-                    <!-- <h1 class="message" id="testMessage">Hello there</h1> -->
+
             </div>
         </div>
-        <script>
-                // const targets = document.getElementsByClassName("chat");
-    
-                // for(i = 0; i < targets.length;i++){
-                //     bodyScrollLock.disableBodyScroll(targets[i])
-                // }
-                const target = document.getElementById("testChat")
-                bodyScrollLock.disableBodyScroll(target)
-            </script>
     </body>
 </html>

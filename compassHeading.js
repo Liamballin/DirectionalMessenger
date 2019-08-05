@@ -88,7 +88,6 @@
                          //! 3 = desktop - completely manual compass
         function test1(){
             compassMode = 1;
-            // window.removeEventListener('deviceorientation', test1)
             console.log("mode 1")
             alpha = 0;
             setCompass();
@@ -96,7 +95,6 @@
         function test2(){
             compassMode = 3;
             console.log("mode 2")
-            // window.removeEventListener('deviceorientation', test2)
             setCompass();
         }
 
@@ -118,39 +116,17 @@
                 console.log("Adding magnetic compass listener")
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
-                    var alpha = event.webkitCompassHeading; //iOS non-standard
+                    var alpha = event.webkitCompassHeading; 
                     var accuracy = event.webkitCompassAccuracy;
                     onDeviceMove(alpha,accuracy)
                 }
                 else 
                 {
-                    // alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-                    var heading = 360 - alpha; //heading [0, 360)
+                    //! alert("Your device is reporting relative alpha values, so this compass won't point north! ");
+                    var heading = 360 - alpha; 
                     document.getElementById("heading").innerHTML = heading.toFixed([0]);
                 }
-    
-            // if (window.DeviceOrientationAbsoluteEvent) {
-            //   window.addEventListener("DeviceOrientationAbsoluteEvent", deviceOrientationListener);
-            // } // If not, check if the device sends any orientation data
-            // else if(window.DeviceOrientationEvent){
-            //   window.addEventListener("deviceorientation", deviceOrientationListener);
-            // } // Send an alert if the device isn't compatible
-            // else {
-            //   alert("Sorry, try again on a compatible mobile device!");
-            // }
-          
-            var message = document.getElementById('testMessage');
-            var messageAngle = 100;
-    
-            var distance = Math.floor(Math.abs(alpha-messageAngle))
-    
-            // if(distance < 10){
-            //     document.getElementById('testMessage').style.opacity = inter(distance,0,10,1,0);//innerHTML = distance//style.opacity = str(inter(Math.abs(alpha-messageAngle),0,10,0,1));
-            // }else{
-            //     document.getElementById('testMessage').style.opacity = 0;//innerHTML = "Test message";
-            // }
-    
-        })  
+            })  
         }else{
             console.log("adding scroll listener")
             window.addEventListener("wheel", (event)=>{
@@ -165,20 +141,7 @@
                 }
                 onDeviceMove(alpha)
             })
-            // window.addEventListener("scroll",function(){
-            //     console.log("click triggered")
-            //     console.log(alpha)
-            //     if(typeof alpha === 'NaN'){
-            //         alpha = 0
-            //     }
-            //     alpha+=2;
-            //     if(alpha >= 360){
-            //         alpha = 0;
-            //     }
-            //     console.log("Adjusting alpha with scroll: "+alpha)
-            //     lastScroll = window.scrollY;
-            //     onDeviceMove(alpha)
-            // }, false)
+
         }
         }
        
@@ -195,26 +158,13 @@
 
     function updateAccuracy(acc){
         var newSize = inter(acc,0,15,1,0)
-        // newSize = 5;
         document.getElementById("accuracyCircle").style.webkitTransform = "scale("+newSize+")"
-        document.getElementById("sendButton").value = acc;
     }
 
     function rotateCompass(deg){
         var chatAngle = 75;
-        
         var div = document.getElementById("compassRing")
         div.style.webkitTransform = 'rotate('+deg+"deg)"
-        
-        // var chat = document.getElementById("currentChat")
-        // var distance = (Math.abs(alpha - chatHeading));
-
-
-
-        // var heading = deg;
-        // var distance = Math.floor(Math.abs(heading-chatAngle))
-        // document.getElementById("sendButton").value = distance;
-        // chat.style.opacity = inter(distance,0,10,1,0)
     }
 
     function getOppAngle(angle){
@@ -247,9 +197,6 @@
                 newChat.appendChild(newMessage)
             }
 
-            // var title = document.createTextNode(chats[i].name)
-            // title.className = "title"
-            // newChat.append(title)
             chatParent.appendChild(newChat)
             // document.getElementById(newChat.id).style.webkitTransform = "rotate("+getOppAngle([i].heading)+"deg)"
 
@@ -257,10 +204,8 @@
     }
 
     function updateChatOpacity(alpha){
-        // console.log("Updating opacity")
-
         var visibleThreshholdDegrees = 20;
-
+        let found = false;
         for(i=0;i<chats.length;i++){
             var chatHeading = chats[i].heading;
             //get opposite angle instead of matching
@@ -270,21 +215,44 @@
                 // console.log("Within 10deg of "+chats[i].name)
                 var newOpacity = inter(distance, 0, visibleThreshholdDegrees,1,0)
                 document.getElementById(chats[i].name).style.opacity = newOpacity;
+                currentChat = chats[i].name;
+                
                 currentChat = document.getElementById(chats[i].name);
                 var degrees = inter(distance,0,10,45,0);
-                // document.getElementById(chats[i].name).style.webkitTransform = "rotate("+(alpha*-1)+"deg)";
+                found = true;
             }else{
-
-                // console.log("Not close to any chats")
-                // console.log("Alpha = "+alpha)
-                // console.log("chat heading = "+chatHeading)
-                // document.getElementsByName(chats[i].name).style.opacity = 0;
                 document.getElementById(chats[i].name).style.opacity = 0;
-                // document.getElementById(chats[i].name).style.webkitTransform = "rotate(180deg)";
-
-
             }
         }
+
+        if(!found){
+            currentChat = undefined;
+        }
+        console.log(currentChat)
+    }
+
+    //---------------------- chat stuff ----------------
+
+    function sendChat(){
+        var chatText = document.getElementById('textInput').value;
+        document.getElementById('textInput').value = "";
+
+        if(currentChat){
+            var chatWindow = currentChat//document.getElementById(currentChat);
+            var textNode = document.createTextNode(chatText)
+            var chatMessage = document.createElement('h1');
+            chatMessage.className = 'chatMessageSent'
+            chatMessage.appendChild(textNode)
+            chatWindow.appendChild(chatMessage)
+            socket.emit("msg",{text:chatText,heading:top.heading})
+            // }else{
+            //     console.log("Current chat was undefined")
+            // }
+        }else{
+            alert("no chat selected!")
+        }
+    
+        
     }
 
 
@@ -292,9 +260,6 @@
 
 
 
-// function getDistance(a,b){
-//     if(a-b) < 0
-// }
 
 
     //run on startup:
