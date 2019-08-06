@@ -184,13 +184,25 @@
         }
     }
 
+    function getDistance(a,b){
+        return (Math.abs(a - b));
+    }
+
     function updateChatOpacity(alpha){
         var visibleThreshholdDegrees = 20;
         let found = false;
         for(i=0;i<chats.length;i++){
             var chatHeading = chats[i].heading;
+            var distance;
             //get opposite angle instead of matching
-            var distance = (Math.abs(alpha - chatHeading));
+            if(chatHeading + visibleThreshholdDegrees > 360 || chatHeading - visibleThreshholdDegrees < 0){
+                let m1 = getOppAngle(chatHeading);
+                let a1 = getOppAngle(alpha);
+                distance = getDistance(a1,m1);
+            }else{
+                distance = getDistance(alpha,chatHeading)
+            }
+            
 
             if( distance < visibleThreshholdDegrees){
                 // console.log("Within 10deg of "+chats[i].name)
@@ -213,6 +225,16 @@
     }
 
     //---------------------- chat stuff ----------------
+
+    // function setListeners(){
+    //     // socket.emit("")
+    //     document.getElementById("textInput").addEventListener("focus",()=>{
+    //         socket.emit("msg",{text:"keyboard opened"})
+    //     })
+    //     document.getElementById("textInput").addEventListener("blur",()=>{
+    //         socket.emit("msg",{text:"keyboard closed"})
+    //     })
+    // }
 
     var lastScroll = 0;
 
@@ -327,5 +349,6 @@
         compassMode = 1;
         setCompass();
         createChats();
+        // setListeners()
     }
     
