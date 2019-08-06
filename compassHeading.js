@@ -172,11 +172,11 @@
                 currentChat = document.getElementById(nn)
                 // updateChatOpacity()
                 onDeviceMove(alpha, accuracy)
-                // for(i = 0; i < chats.length; i ++){
-                //     if(chats[i].name == nn){
-                //         socket.emit("new",chats[i])
-                //     }
-                // }
+                for(i = 0; i < chats.length; i ++){
+                    if(chats[i].name == nn){
+                        socket.emit("new",chats[i])
+                    }
+                }
                 console.log(chats)
             });
         }
@@ -188,7 +188,12 @@
             console.log("making new chat with name "+nn)
             var nc = chatObjectConstructor(nn, heading)
             chats.push(nc);
-            resolve(nn);
+            createChatElement(nc).then(()=>{
+                // socket.emit("new",{name:nn,heading:heading})
+                resolve(nn);
+
+            })
+            
         })
     }
 
