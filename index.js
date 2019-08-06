@@ -4,8 +4,13 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 rid = require('readable-id')
 
+var testChats = require('./testChats').chats
+
 const port = process.env.PORT || 3000;//// for heroku/local
 const path = require("path")
+
+
+const chats = [];
 
 app.use(express.static(__dirname))  //!Pretty sure this should be changed for security reasons
 
@@ -16,14 +21,20 @@ app.get("/", (req,res)=>{
 
 io.on('connection',(socket)=>{
     console.log("User connected")
-    socket.on("hello", msg=>{
-        console.log("got "+msg.text+" from heading "+msg.heading)
-    })
+    console.log(chats)
+    socket.emit("chats",chats)
+
     socket.on("msg",(msg)=>{
         console.log(msg)
     })
     socket.on("disconnect",()=>{
         console.log("User disconneted")
+    })
+
+    socket.on("new",chat=>{
+        console.log("New chat: ")
+        console.log(chat)
+        chats.push(chat)
     })
 })
 
@@ -91,4 +102,8 @@ class Peer{
 */
 http.listen(port, ()=>{
     console.log("listning on "+port)
+    for(i =0; i < testChats.length;i++){
+chats.push(testChats[i])
+    }
+    
 })

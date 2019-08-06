@@ -1,67 +1,32 @@
 
+    //---------global vars ----------
+
+    var chats = [];
+    
+    
+    
+    //----------socket stuff---------------
     var socket = top.glob;  // import the same socket instance that is already initialized.
 
-
-    var chats = [
-        {
-            name:"testChat",    //!this should be a UUID? to identify which person moved??
-            heading:00,
-            messages:[
-                {
-                    text:"Heading 00",
-                    time:"123456",
-                    sender:"me"
-                },
-                {
-                    text:"MEssage 1 this a long message to test whether this element should be a div or a text element like H1",
-                    time:"123456",
-                    sender:"user2"
-                },
-                {
-                    text:"another message",
-                    time:"123456",
-                    sender:"me"
-                },
-                {
-                    text:"the third message",
-                    time:"123456",
-                    sender:"user2"
-                },
-                {
-                    text:"four four",
-                    time:"123456",
-                    sender:"me"
-                },
-                {
-                    text:"👌👌👌👌",
-                    time:"123456",
-                    sender:"user2"
-                }
-            ]
-        },
-        {
-            name:"chat2",    //!this should be a UUID? to identify which person moved??
-            heading:270,
-            messages:[
-                {
-                    text:"heading 270;from CHAT 2WOOO!!",
-                    time:"1236636",
-                    sender:"me"
-                }
-            ]
-        },
-        {
-            name:"chat3Baby",    //!this should be a UUID? to identify which person moved??
-            heading:100,
-            messages:[
-                {
-                    text:"heading 100;from CHAT THEE!!",
-                    time:"1236636",
-                    sender:"user69"
-                }
-            ]
+    socket.on("chats",(cs)=>{
+        console.log(cs)
+        for(i = 0;i < cs.length; i++){
+            if(!cs[i].messages){
+                cs[i].messages = [];
+            }
+            chats.push(cs[i])
         }
-    ]
+        console.log(chats.length)
+        createChats();
+    })
+
+
+
+
+
+    //-------------DOM STUFF------------------
+
+
 
     function inter(
         val, //current value
@@ -87,64 +52,30 @@
         var compassMode; //! 1 = iphone - actual magnetic compass
                          //! 2 = android - calibrated accelleromter
                          //! 3 = desktop - completely manual compass
-        function test1(){
-            compassMode = 1;
-            console.log("mode 1")
-            alpha = 0;
-            setCompass();
-        }
-        function test2(){
-            compassMode = 3;
-            console.log("mode 2")
-            setCompass();
-        }
-
-        function detectCompassMode(){
-            console.log("Detecting compass mode..")
-            var test = window.addEventListener("deviceorientation", (evt)=>{
-                if(typeof event.webkitCompassHeading !== "undefined"){
-                   test1();
-                }else{
-                    test2();
-
-                }
-            })
-            
-        }
 
         function setCompass(){
-            // if(compassMode == 1){
                 console.log("Adding magnetic compass listener")
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
                      alpha = event.webkitCompassHeading; 
                      accuracy = event.webkitCompassAccuracy;
                     onDeviceMove(alpha,accuracy)
-                }
-                else 
-                {
-                    //! alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-                    // var heading = 360 - alpha; 
-                    // document.getElementById("heading").innerHTML = heading.toFixed([0]);
+                }else{
                     console.log("adding scroll listener")
-            window.addEventListener("wheel", (event)=>{
-                var delta = Math.sign(event.deltaY);
-                alpha += delta*2;
-
-                if(alpha >= 360){
-                    alpha = 0;
-
-                }else if(alpha < 0){
-                    alpha = 360;
-                }
-                onDeviceMove(alpha)
-            })
-                }
-            })  
-        // }else{
+                    window.addEventListener("wheel", (event)=>{
+                        var delta = Math.sign(event.deltaY);
             
-
-        // }
+                        alpha += delta*2;
+                        if(alpha >= 360){
+                            alpha = 0;
+                        }else if(alpha < 0){
+                            alpha = 360;
+                        }
+                        onDeviceMove(alpha)
+                    })
+                    onDeviceMove(alpha);
+                    }
+            })      
         }
        
 
@@ -156,8 +87,6 @@
         rotateCompass(alpha);
         updateAccuracy(accuracy);
         updateChatOpacity(alpha);
-
-        // document.getElementById("sendButton").disabled = (currentChat == undefined);
     }
 
     function updateAccuracy(acc){
@@ -180,7 +109,10 @@
     }
 
     function createChats(){
+        console.log("Creating chats..")
+        console.log(chats.length)
         for(i =0; i<chats.length;i++){
+            console.log("Creating chat "+i+": "+chats[i].name)
             createChatElement(chats[i])
         }
     }
@@ -206,13 +138,12 @@
             
 
             if( distance < visibleThreshholdDegrees){
-                // console.log("Within 10deg of "+chats[i].name)
                 var newOpacity = inter(distance, 0, visibleThreshholdDegrees,1,0)
                 document.getElementById(chats[i].name).style.opacity = newOpacity;
                 currentChat = chats[i].name;
                 
                 currentChat = document.getElementById(chats[i].name);
-                var degrees = inter(distance,0,10,45,0);
+                // var degrees = inter(distance,0,10,45,0);
                 found = true;
             }else{
                 document.getElementById(chats[i].name).style.opacity = 0;
@@ -222,22 +153,9 @@
         if(!found){
             currentChat = undefined;
         }
-        console.log(currentChat)
     }
 
     //---------------------- chat stuff ----------------
-
-    // function setListeners(){
-    //     // socket.emit("")
-    //     document.getElementById("textInput").addEventListener("focus",()=>{
-    //         socket.emit("msg",{text:"keyboard opened"})
-    //     })
-    //     document.getElementById("textInput").addEventListener("blur",()=>{
-    //         socket.emit("msg",{text:"keyboard closed"})
-    //     })
-    // }
-
-    var lastScroll = 0;
 
     function sendChat(){
         var chatText = document.getElementById('textInput').value;
@@ -252,15 +170,16 @@
                 // currentChat = nn;
                 addMessageToChat(chatText, nn, "me");
                 currentChat = document.getElementById(nn)
-                updateChatOpacity()
+                // updateChatOpacity()
+                onDeviceMove(alpha, accuracy)
+                // for(i = 0; i < chats.length; i ++){
+                //     if(chats[i].name == nn){
+                //         socket.emit("new",chats[i])
+                //     }
+                // }
                 console.log(chats)
             });
-            
-            
-            
         }
-    
-        
     }
 
     function createNewChat(heading){
@@ -269,17 +188,8 @@
             console.log("making new chat with name "+nn)
             var nc = chatObjectConstructor(nn, heading)
             chats.push(nc);
-            createChatElement(nc).then(()=>{
-                socket.emit("new",{name:nn,heading:heading})
-        
-            })
-            
-    
-    
             resolve(nn);
         })
-
-
     }
 
     function createChatElement(chatObject){
@@ -315,6 +225,25 @@
     }
 
     function addMessageToChat(message, chatName, sender){
+        //---------update chat object-------
+
+        for(i = 0; i < chats.length;i++){
+            if(chats[i].name == chatName){
+                console.log("found match")
+                chats[i].messages.push(
+                    {
+                        text:message,
+                        time:"13",
+                        sender:sender
+                    }
+                )
+                console.log(chats[i].messages)
+
+            }
+        }
+
+
+        //---update dom instantly
         var chatWindow = document.getElementById(chatName);//currentChat//document.getElementById(currentChat);
         var textNode = document.createTextNode(message)
         var chatMessage = document.createElement('h1');
@@ -326,7 +255,7 @@
         }
         chatMessage.appendChild(textNode)
         chatWindow.appendChild(chatMessage)
-        socket.emit("msg",{text:message,heading:alpha})
+        socket.emit("msg",{text:message,heading:alpha}) //!Update this to show the chat name
         let scroll = 100+lastScroll;
         chatWindow.scroll({
             top: scroll,
@@ -346,16 +275,7 @@
 
     //run on startup:
     function onLoad(){
-        // detectCompassMode();
-        compassMode = 1;
         setCompass();
         createChats();
-        if(window.DeviceOrientationEvent){
-            document.getElementById("sendButton").value = "Has GYRO!"
-        }else{
-            document.getElementById("sendButton").value = "DESKTIOs"
-
-        }
-        // setListeners()
     }
     
