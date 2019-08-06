@@ -26,6 +26,9 @@ io.on('connection',(socket)=>{
 
     socket.on("msg",(msg)=>{
         console.log(msg)
+        addMessageToChat(msg)
+        socket.broadcast.emit("msg", msg)
+        
     })
     socket.on("disconnect",()=>{
         console.log("User disconneted")
@@ -35,8 +38,19 @@ io.on('connection',(socket)=>{
         console.log("New chat: ")
         console.log(chat)
         chats.push(chat)
+        socket.broadcast.emit("chats",[chat]);
+
     })
 })
+
+
+function addMessageToChat(msg){
+    for(i = 0; i< chats.length; i++){
+        if(chats[i].name == msg.chat){
+            chats[i].messages.push(msg)
+        }
+    }
+}
 
 
 
@@ -102,8 +116,8 @@ class Peer{
 */
 http.listen(port, ()=>{
     console.log("listning on "+port)
-    for(i =0; i < testChats.length;i++){
-chats.push(testChats[i])
-    }
+//     for(i =0; i < testChats.length;i++){
+// chats.push(testChats[i])
+//     }
     
 })

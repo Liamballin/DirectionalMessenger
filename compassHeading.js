@@ -20,6 +20,13 @@
         createChats();
     })
 
+    socket.on("msg", (msg)=>{
+        console.log("Got incoming message")
+        console.log(msg)
+        addMessageToChat(msg.text,msg.chat, "other", false);
+        onDeviceMove(alpha, accuracy);
+    })
+
 
 
 
@@ -163,12 +170,12 @@
         
         if(currentChat){
 
-            addMessageToChat(chatText, currentChat.id, "me")
+            addMessageToChat(chatText, currentChat.id, "me", true)
 
         }else{
             createNewChat(alpha).then(nn=>{
                 // currentChat = nn;
-                addMessageToChat(chatText, nn, "me");
+                addMessageToChat(chatText, nn, "me", false);
                 currentChat = document.getElementById(nn)
                 // updateChatOpacity()
                 onDeviceMove(alpha, accuracy)
@@ -229,7 +236,7 @@
         }
     }
 
-    function addMessageToChat(message, chatName, sender){
+    function addMessageToChat(message, chatName, sender, syncToServer){
         //---------update chat object-------
 
         for(i = 0; i < chats.length;i++){
@@ -247,6 +254,10 @@
             }
         }
 
+        if(syncToServer){
+            socket.emit("msg",{text:message,heading:alpha,chat:chatName})
+        }
+
 
         //---update dom instantly
         var chatWindow = document.getElementById(chatName);//currentChat//document.getElementById(currentChat);
@@ -260,7 +271,7 @@
         }
         chatMessage.appendChild(textNode)
         chatWindow.appendChild(chatMessage)
-        socket.emit("msg",{text:message,heading:alpha}) //!Update this to show the chat name
+        // socket.emit("msg",{text:message,heading:alpha}) //!Update this to show the chat name
         let scroll = 100+lastScroll;
         chatWindow.scroll({
             top: scroll,
