@@ -113,7 +113,7 @@
         }
 
         function setCompass(){
-            if(compassMode == 1){
+            // if(compassMode == 1){
                 console.log("Adding magnetic compass listener")
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
@@ -124,12 +124,9 @@
                 else 
                 {
                     //! alert("Your device is reporting relative alpha values, so this compass won't point north! ");
-                    var heading = 360 - alpha; 
-                    document.getElementById("heading").innerHTML = heading.toFixed([0]);
-                }
-            })  
-        }else{
-            console.log("adding scroll listener")
+                    // var heading = 360 - alpha; 
+                    // document.getElementById("heading").innerHTML = heading.toFixed([0]);
+                    console.log("adding scroll listener")
             window.addEventListener("wheel", (event)=>{
                 var delta = Math.sign(event.deltaY);
                 alpha += delta*2;
@@ -142,8 +139,12 @@
                 }
                 onDeviceMove(alpha)
             })
+                }
+            })  
+        // }else{
+            
 
-        }
+        // }
         }
        
 
@@ -349,6 +350,12 @@
         compassMode = 1;
         setCompass();
         createChats();
+        if(window.DeviceOrientationEvent){
+            document.getElementById("sendButton").value = "Has GYRO!"
+        }else{
+            document.getElementById("sendButton").value = "DESKTIOs"
+
+        }
         // setListeners()
     }
     
