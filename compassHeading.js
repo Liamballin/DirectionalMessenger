@@ -132,7 +132,7 @@
         var visibleThreshholdDegrees = 20;
         let found = false;
         for(i=0;i<chats.length;i++){
-            var chatHeading = chats[i].heading;
+            var chatHeading = getOppAngle(chats[i].heading);
             var distance;
             //get opposite angle instead of matching
             if(chatHeading + visibleThreshholdDegrees > 360 || chatHeading - visibleThreshholdDegrees < 0){
