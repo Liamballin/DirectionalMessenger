@@ -117,8 +117,8 @@
                 console.log("Adding magnetic compass listener")
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
-                    var alpha = event.webkitCompassHeading; 
-                    var accuracy = event.webkitCompassAccuracy;
+                     alpha = event.webkitCompassHeading; 
+                     accuracy = event.webkitCompassAccuracy;
                     onDeviceMove(alpha,accuracy)
                 }
                 else 
@@ -323,7 +323,9 @@
 
     //run on startup:
     function onLoad(){
-        detectCompassMode();
+        // detectCompassMode();
+        compassMode = 1;
+        setCompass();
         createChats();
     }
     
