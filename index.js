@@ -4,7 +4,6 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var rid = require('readable-id')
 
-var testChats = require('./testChats').chats
 
 const port = process.env.PORT || 3000;//// for heroku/local
 const path = require("path")
@@ -13,11 +12,11 @@ const path = require("path")
 const chats = [];
 const users = [];
 
-app.use(express.static(__dirname))  //!Pretty sure this should be changed for security reasons
+app.use(express.static(__dirname+"/web"))  
 
 app.get("/", (req,res)=>{
     // res.sendFile(__dirname + '/pos.html')
-    res.sendFile(__dirname+'/compass.html')
+    res.sendFile(__dirname+'/web/compass.html')
 })
 
 io.on('connection',(socket)=>{
@@ -36,6 +35,7 @@ function addMessageToChat(msg){
 class User{
     constructor(socket){
         this.socket = socket;
+        this.self = this;
         this.name = rid()
         this.messageCount = 0;
         this.heading;
@@ -98,8 +98,8 @@ class User{
 
         this.socket.on("disconnect",()=>{
             // console.log("User disconneted")
+            users.splice(users.indexOf(this.self),1);
             printUpdate()
-            users.splice(users.indexOf(this),1);
         })
     
         this.socket.on("new",chat=>{
@@ -134,72 +134,7 @@ function printUpdate(){
     console.log(chats.length + " active chats")
 }
 
-// app.get("/map",(req,res)=>{
-//     res.sendFile(__dirname+"/map.html")
-// })
-/*
 
-var count = 0;
-
-peers = [];
-
-io.on('connection',(socket)=>{
-    console.log("New connection")
-    peers.push(new Peer(socket))
-})
-
-
-
-
-
-class Peer{
-
-    constructor(socket){
-        this.socket = socket;
-        this.lat;
-        this.lon;
-        this.acc;
-        this.elev;
-        this.id = count;
-        count++;
-
-        this.socket.on("loc",(loc)=>{
-            console.log("Got loc update")
-            console.log(loc.lat)
-            console.log(loc.lon)
-            this.lat = loc.lat;
-            this.lon = loc.lon;
-            this.sendLocation()
-            this.socket.emit("info","hello")
-        })
-
-        this.socket.on("start",()=>{
-            console.log("Start key received")
-        })
-
-        
-
-        this.socket.on("error",(e)=>{
-            console.log("Pos error")
-            console.log(e)
-        })
-
-        this.socket.on("disconenct",()=>{
-            console.log("User disconnected")
-        })
-    }
-    sendLocation(lat,lon){
-        console.log("Sending update")
-        var o = {index:this.id,coords:{lat:this.lat,lng:this.lon}}
-       io.emit("update",o)
-    }
-}
-
-*/
 http.listen(port, ()=>{
-    console.log("listning on "+port)
-//     for(i =0; i < testChats.length;i++){
-// chats.push(testChats[i])
-//     }
-    
+    console.log("listning on " + port)  
 })
