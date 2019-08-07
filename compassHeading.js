@@ -132,19 +132,35 @@
         var visibleThreshholdDegrees = 20;
         let found = false;
         for(i=0;i<chats.length;i++){
-            var chatHeading = getOppAngle(chats[i].heading);
-            var distance;
+            var chatHeading1 = getOppAngle(chats[i].heading);
+            var chatHeading2 = chats[i].heading;
+            var distance1;
+            var distance2;
             //get opposite angle instead of matching
-            if(chatHeading + visibleThreshholdDegrees > 360 || chatHeading - visibleThreshholdDegrees < 0){
-                let m1 = getOppAngle(chatHeading);
-                let a1 = getOppAngle(alpha);
-                distance = getDistance(a1,m1);
+            if(chatHeading1 + visibleThreshholdDegrees > 360 || chatHeading1 - visibleThreshholdDegrees < 0){
+                let m11 = getOppAngle(chatHeading1);
+                let a11 = getOppAngle(alpha);
+                distance1 = getDistance(a11,m11);
             }else{
-                distance = getDistance(alpha,chatHeading)
+                distance1 = getDistance(alpha,chatHeading1)
+            }
+
+            if(chatHeading2 + visibleThreshholdDegrees > 360 || chatHeading2 - visibleThreshholdDegrees < 0){
+                let m12 = getOppAngle(chatHeading2);
+                let a12 = getOppAngle(alpha);
+                distance2 = getDistance(a12,m12);
+            }else{
+                distance2 = getDistance(alpha,chatHeading2)
             }
             
 
-            if( distance < visibleThreshholdDegrees){
+            if( distance1 < visibleThreshholdDegrees || distance2 < visibleThreshholdDegrees){
+                let distance;
+                if(distance1 < distance2){
+                    distance = distance1;
+                }else{
+                    distance = distance2;
+                }
                 var newOpacity = inter(distance, 0, visibleThreshholdDegrees,1,0)
                 document.getElementById(chats[i].name).style.opacity = newOpacity;
                 currentChat = chats[i].name;
