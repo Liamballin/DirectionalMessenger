@@ -2,7 +2,7 @@ var app = require('express')();
 var express = require("express")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-rid = require('readable-id')
+var rid = require('readable-id')
 
 var testChats = require('./testChats').chats
 
@@ -11,6 +11,7 @@ const path = require("path")
 
 
 const chats = [];
+const users = [];
 
 app.use(express.static(__dirname))  //!Pretty sure this should be changed for security reasons
 
@@ -20,27 +21,7 @@ app.get("/", (req,res)=>{
 })
 
 io.on('connection',(socket)=>{
-    console.log("User connected")
-    console.log(chats)
-    socket.emit("chats",chats)
-
-    socket.on("msg",(msg)=>{
-        console.log(msg)
-        addMessageToChat(msg)
-        socket.broadcast.emit("msg", msg)
-        
-    })
-    socket.on("disconnect",()=>{
-        console.log("User disconneted")
-    })
-
-    socket.on("new",chat=>{
-        console.log("New chat: ")
-        console.log(chat)
-        chats.push(chat)
-        socket.broadcast.emit("chats",[chat]);
-
-    })
+    users.push(new User(socket));
 })
 
 
@@ -52,7 +33,90 @@ function addMessageToChat(msg){
     }
 }
 
+class User{
+    constructor(socket){
+        this.socket = socket;
+        this.name = rid()
+        this.messageCount = 0;
+        this.heading;
+        this.lastMatch;
+        console.log("User connected")
+        printUpdate()
 
+        //send all chats for new user to load
+        this.socket.emit("chats",chats)
+    
+        //on sending a message from the client, it is saved and broadcast.
+        this.socket.on("msg",(msg)=>{
+            this.messageCount ++;
+            console.log(msg)
+            printUpdate()
+            addMessageToChat(msg)
+            this.socket.broadcast.emit("msg", msg)
+        })
+
+        this.socket.on("heading",(deg)=>{
+            this.heading = deg;
+            printUpdate();
+            var foundMatch = false;
+
+            for(i = 0; i < users.length;i++){
+                if(users[i].name != this.name){
+                    if(Math.abs(users[i].heading - this.heading) < 10){
+                        if(!this.lastMatch){
+                            this.socket.emit("match", {
+                                user:users[i].name,
+                                distance:Math.abs(users[i].heading - this.heading)
+                            })
+                            this.lastMatch = true;
+                            
+                        }
+                        foundMatch = true;
+                    }
+                }
+            }
+
+            if(!foundMatch && this.lastMatch){
+                this.socket.emit("noMatch");
+                this.lastMatch = false;
+            }
+
+            
+
+
+        })
+
+
+        this.socket.on("disconnect",()=>{
+            // console.log("User disconneted")
+            printUpdate()
+            users.splice(users.indexOf(this),1);
+        })
+    
+        this.socket.on("new",chat=>{
+            console.log("New chat: ")
+            console.log(chat)
+            printUpdate()
+            chats.push(chat)
+            socket.broadcast.emit("chats",[chat]);
+    
+        })
+    }
+
+    
+}
+
+
+function printUpdate(){
+    console.clear();
+    console.log(users.length+ " active users");
+    for(i =0;i< users.length;i++){
+        console.log("   -"+users[i].name);
+        console.log("    "+users[i].messageCount + "messages sent.")
+        console.log("    "+ "Heading: "+users[i].heading)
+    }
+    console.log(chats.length + " active chats")
+}
 
 // app.get("/map",(req,res)=>{
 //     res.sendFile(__dirname+"/map.html")
@@ -67,6 +131,8 @@ io.on('connection',(socket)=>{
     console.log("New connection")
     peers.push(new Peer(socket))
 })
+
+
 
 
 

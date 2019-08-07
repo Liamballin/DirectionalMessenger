@@ -28,6 +28,15 @@
     })
 
 
+    socket.on("match",match=>{
+        console.log(match)
+        document.getElementById("userIcon").style.stroke="white";
+    })
+    socket.on("noMatch",()=>{
+        console.log("no match!")
+        document.getElementById("userIcon").style.stroke = "rgb(39, 109, 247)";
+    })
+
 
 
 
@@ -53,6 +62,7 @@
 
 
         var alpha =0;
+        var lastSolidAlpha;
         var accuracy;
         var currentChat;
         var lastScroll;
@@ -88,6 +98,13 @@
 
 
     function onDeviceMove(alpha, accuracy){
+        if(!lastSolidAlpha){
+            lastSolidAlpha = alpha;
+        }
+        if(Math.abs(alpha - lastSolidAlpha) > 5){
+            lastSolidAlpha = alpha
+            socket.emit("heading",lastSolidAlpha);
+        }
         var heading = alpha
         top.heading = alpha;
         document.getElementById("heading").innerHTML = heading.toFixed([0])+"°";
