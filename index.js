@@ -40,7 +40,6 @@ class User{
         this.messageCount = 0;
         this.heading;
         this.lastMatch;
-        console.log("User connected")
         printUpdate()
 
         //send all chats for new user to load
@@ -98,7 +97,12 @@ class User{
 
         this.socket.on("disconnect",()=>{
             // console.log("User disconneted")
-            users.splice(users.indexOf(this.self),1);
+            // users.splice(users.indexOf(this.self),1);
+            for(i = 0; i< users.length;i++){
+                if(users[i].name == this.name){
+                    users.splice(i,1)
+                }
+            }
             printUpdate()
         })
     
@@ -125,16 +129,22 @@ function getOppAngle(angle){
 
 function printUpdate(){
     console.clear();
+    console.log("A DIRECT MESSAGE")
+    
+    console.log("Running on " + port)  
+    console.log('\n\n')
     console.log(users.length+ " active users");
+    console.log("\n")
     for(i =0;i< users.length;i++){
-        console.log("   -"+users[i].name);
-        console.log("    "+users[i].messageCount + "messages sent.")
-        console.log("    "+ "Heading: "+users[i].heading)
+        console.log("   > "+users[i].name);
+        console.log("       [M]"+users[i].messageCount + " messages sent.")
+        console.log("       [H]"+ "Heading: "+users[i].heading)
     }
-    console.log(chats.length + " active chats")
+    
+    console.log("\n[C]"+chats.length + " active chats")
 }
 
 
 http.listen(port, ()=>{
-    console.log("listning on " + port)  
+printUpdate()
 })

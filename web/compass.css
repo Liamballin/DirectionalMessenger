@@ -95,25 +95,28 @@ body{
     /* border-: 5vw; */
     border-top-left-radius: 5vw;
     border-bottom-left-radius: 5vw;
-    border: 5px solid white;
+    /* border: 5px solid white; */
     margin-top: 75vh;
     height: 5vh;
     margin-left: 5vw;
     z-index: 100;
     position: absolute;
-    font-size: 30pt;
+    font-size: 5vw;
     color:black;
+    border: none;
+    padding-left: 2vw;
+    overflow-wrap: break-word;
 
 }
 #sendButton{
 
     width:20vw;
-    height: 5vh;
+    height: 5.1vh;
     font-size: 5vw;
     display: inline-block;
-    border: none;
-    padding: 1rem 2rem;
+    /* padding: 1rem 2rem; */
     text-decoration: none;
+    border: none;
     background-color: white;
     color: #276DF7;
     font-family: sans-serif;
@@ -197,6 +200,8 @@ body{
     vertical-align: bottom;
     /* display: list-item; */
     /* background */
+    overflow-wrap: break-word;
+
 }
 
 .chatMessageSent{
@@ -212,6 +217,8 @@ body{
         position:relative;
         margin-left:20vw;
         text-align: right;
+        overflow-wrap: break-word;
+
         /* background */
 }
 
