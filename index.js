@@ -56,17 +56,26 @@ class User{
         })
 
         this.socket.on("heading",(deg)=>{
+            var detectThreshold = 10;
             this.heading = deg;
             printUpdate();
             var foundMatch = false;
 
             for(i = 0; i < users.length;i++){
                 if(users[i].name != this.name){
-                    if(Math.abs(users[i].heading - this.heading) < 10){
+                    let d1 = Math.abs(users[i].heading - this.heading)
+                    let d2 = Math.abs(getOppAngle(users[i].heading) - this.heading)
+                    let d;
+                    if(d1 < d2){
+                        d = d1;
+                    }else{
+                        d = d2;
+                    }
+                    if(d < detectThreshold){
                         if(!this.lastMatch){
                             this.socket.emit("match", {
                                 user:users[i].name,
-                                distance:Math.abs(users[i].heading - this.heading)
+                                distance:d
                             })
                             this.lastMatch = true;
                             
@@ -106,6 +115,13 @@ class User{
     
 }
 
+function getOppAngle(angle){
+    if(angle+180>360){
+        return angle-180;
+    }else{
+        return angle+180;
+    }
+}
 
 function printUpdate(){
     console.clear();
