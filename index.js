@@ -19,6 +19,10 @@ app.get("/", (req,res)=>{
     res.sendFile(__dirname+'/web/compass.html')
 })
 
+app.get("/test", (req,res)=>{
+    res.sendFile(__dirname+"/web/accelTest.html")
+})
+
 io.on('connection',(socket)=>{
     users.push(new User(socket));
 })

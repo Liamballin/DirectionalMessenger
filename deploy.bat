@@ -1,4 +1,5 @@
 :1
+cls
 @echo off
 set /p commitMessage=Enter commit message:
 git add .
