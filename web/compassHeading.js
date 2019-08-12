@@ -42,6 +42,52 @@
 
     //-------------DOM STUFF------------------
 
+    //--------------popup code---------
+    function showPopup(bool){
+        var display;
+        var pointer;
+        if(bool){
+            display = "block";
+            pointer = "all";
+        }else{
+            display = "none";
+            pointer = "none"
+        }
+        var popParent = document.getElementById("popup");
+        popParent.style.display = display;
+        popParent.style.pointerEvents = pointer;
+
+        for(i=0;i<popParent.children;i++){
+            popParent.children[i].style.display = display
+            popParent.children[i].style.pointerEvents = pointer
+        }
+    }
+
+    function confirmHeading(){
+        window.addEventListener("deviceorientation", (e)=>{
+            // alert(offset)
+            if(offset){
+                let a = ((e.alpha*-1)-(offset))
+                if(a>=360){
+                    a -= 360
+                }else if(a < 0){
+                    a += 360;
+                }
+                alpha = a;
+            }else{
+                offset = e.alpha;
+            }
+            onDeviceMove(alpha)
+        }, true); //change to call onDeviceMove
+        showPopup(false)
+        headingSet = true;
+
+        
+    }
+
+
+    //-----------------------------
+
 
 
     function inter(
@@ -63,6 +109,8 @@
 
         var alpha =0;
         var lastSolidAlpha;
+        var headingSet = false;
+        var offset;
         var accuracy;
         var currentChat;
         var lastScroll;
@@ -71,13 +119,27 @@
                          //! 3 = desktop - completely manual compass
 
         function setCompass(){
-                console.log("Adding magnetic compass listener")
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
+                    console.log("Adding magnetic compass listener")
+
                      alpha = event.webkitCompassHeading; 
                      accuracy = event.webkitCompassAccuracy;
                     onDeviceMove(alpha,accuracy)
                 }else{
+                    if(typeof window.DeviceOrientationEvent !== "undefined"){
+                        //android
+                        if(!headingSet){
+                            showPopup(true)
+                        }
+
+
+
+                    }else{
+                        //dont think this will ever work
+                        console.log("Desktop client?")
+                        alert("Desktop")
+                    
                     console.log("adding scroll listener")
                     window.addEventListener("wheel", (event)=>{
                         var delta = Math.sign(event.deltaY);
@@ -92,6 +154,7 @@
                     })
                     onDeviceMove(alpha);
                     }
+                }
             })      
         }
        
