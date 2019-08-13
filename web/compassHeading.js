@@ -9,14 +9,14 @@
     var socket = top.glob;  // import the same socket instance that is already initialized.
 
     socket.on("chats",(cs)=>{
-        console.log(cs)
+        // console.log(cs)
         for(i = 0;i < cs.length; i++){
             if(!cs[i].messages){
                 cs[i].messages = [];
             }
             chats.push(cs[i])
         }
-        console.log(chats.length)
+        // console.log(chats.length)
         createChats();
     })
 
@@ -67,7 +67,7 @@
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
             if(offset){
-                let a = (-(e.alpha)+(offset)) //test
+                let a = (-(e.alpha)+(offset)) 
                 if(a>=360){
                     a -= 360
                 }else if(a < 0){
@@ -110,6 +110,7 @@
         var alpha =0;
         var lastSolidAlpha;
         var headingSet = false;
+        var rotRate;
         var offset;
         var accuracy;
         var currentChat;
@@ -119,11 +120,15 @@
                          //! 3 = desktop - completely manual compass
 
         function setCompass(){
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', deviceMotionHandler);
+              }
             window.addEventListener('deviceorientation', function(event) {
                 if (typeof event.webkitCompassHeading !== "undefined") {
-                    console.log("Adding magnetic compass listener")
+                    // console.log("Adding magnetic compass listener")
 
                      alpha = event.webkitCompassHeading; 
+                    console.log(event)
                      accuracy = event.webkitCompassAccuracy;
                     onDeviceMove(alpha,accuracy)
                 }else{
@@ -137,10 +142,10 @@
 
                     }else{
                         //dont think this will ever work
-                        console.log("Desktop client?")
+                        // console.log("Desktop client?")
                         alert("Desktop")
                     
-                    console.log("adding scroll listener")
+                    // console.log("adding scroll listener")
                     window.addEventListener("wheel", (event)=>{
                         var delta = Math.sign(event.deltaY);
             
@@ -158,9 +163,17 @@
             })      
         }
        
+        var threshold = 150;
+        function deviceMotionHandler(event){
+            let a = event.rotationRate.beta;
+            if(a > threshold){
+                sendChat()
+            }
 
+        }
 
     function onDeviceMove(alpha, accuracy){
+        // document.getElementById("sendButton").value = rotRate;
         if(!lastSolidAlpha){
             lastSolidAlpha = alpha;
         }
@@ -196,10 +209,10 @@
     }
 
     function createChats(){
-        console.log("Creating chats..")
+        // console.log("Creating chats..")
         console.log(chats.length)
         for(i =0; i<chats.length;i++){
-            console.log("Creating chat "+i+": "+chats[i].name)
+            // console.log("Creating chat "+i+": "+chats[i].name)
             createChatElement(chats[i])
         }
     }
@@ -280,7 +293,7 @@
                         socket.emit("new",chats[i])
                     }
                 }
-                console.log(chats)
+                // console.log(chats)
             });
         }
     }
@@ -288,7 +301,7 @@
     function createNewChat(heading){
         return new Promise((resolve,reject)=>{
             var nn = uuid.v1();
-            console.log("making new chat with name "+nn)
+            // console.log("making new chat with name "+nn)
             var nc = chatObjectConstructor(nn, heading)
             chats.push(nc);
             createChatElement(nc).then(()=>{
@@ -337,7 +350,7 @@
 
         for(i = 0; i < chats.length;i++){
             if(chats[i].name == chatName){
-                console.log("found match")
+                // console.log("found match")
                 chats[i].messages.push(
                     {
                         text:message,
@@ -345,7 +358,7 @@
                         sender:sender
                     }
                 )
-                console.log(chats[i].messages)
+                // console.log(chats[i].messages)
 
             }
         }
