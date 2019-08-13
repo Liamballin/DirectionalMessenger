@@ -59,7 +59,7 @@ class User{
         })
 
         this.socket.on("heading",(deg)=>{
-            var detectThreshold = 10;
+            var detectThreshold = 20;
             this.heading = deg;
             printUpdate();
             var foundMatch = false;
