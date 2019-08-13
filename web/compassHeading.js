@@ -67,7 +67,7 @@
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
             if(offset){
-                let a = ((e.alpha*-1)-(offset))
+                let a = (-(e.alpha)+(offset))
                 if(a>=360){
                     a -= 360
                 }else if(a < 0){
