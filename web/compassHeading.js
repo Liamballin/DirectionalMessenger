@@ -163,14 +163,14 @@
             })      
         }
        
-        var threshold = 150;
-        function deviceMotionHandler(event){
-            let a = event.rotationRate.beta;
-            if(a > threshold){
-                sendChat()
-            }
+        // var threshold = 150;
+        // function deviceMotionHandler(event){
+        //     let a = event.rotationRate.beta;
+        //     if(a > threshold){
+        //         sendChat()
+        //     }
 
-        }
+        // }
 
     function onDeviceMove(alpha, accuracy){
         // document.getElementById("sendButton").value = rotRate;
