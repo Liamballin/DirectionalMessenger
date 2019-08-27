@@ -20,7 +20,7 @@ app.get("/", (req,res)=>{
 })
 
 app.get("/test", (req,res)=>{
-    res.sendFile(__dirname+"/web/detectTest.html")
+    res.sendFile(__dirname+"/web/rotate.html")
 })
 
 io.on('connection',(socket)=>{

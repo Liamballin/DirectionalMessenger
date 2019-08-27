@@ -169,7 +169,6 @@
             if(a > threshold){
                 // sendChat()
             }
-
         }
 
     function onDeviceMove(alpha, accuracy){
