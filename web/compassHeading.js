@@ -15,9 +15,11 @@
                 cs[i].messages = [];
             }
             chats.push(cs[i])
+            createPips(cs[i].heading);
         }
         // console.log(chats.length)
         createChats();
+        
     })
 
     socket.on("msg", (msg)=>{
@@ -216,6 +218,23 @@
         }
     }
 
+    function createPips(deg){
+        var p = document.getElementById("compassRing");
+        var rot = deg;
+        for(a = 0; a < 2; a++){
+
+        
+        var n1 = document.createElement("img");
+        n1.className = "poi";
+        n1.src = "../images/chatPip.png"
+        n1.style.webkitTransform = "rotate("+rot+"deg)";
+        // n1.style.backgroundColor = "red";
+        p.appendChild(n1);
+        rot = getOppAngle(rot);
+
+        }
+    }
+
     function getDistance(a,b){
         return (Math.abs(a - b));
     }
@@ -306,6 +325,7 @@
             createChatElement(nc).then(()=>{
                 // socket.emit("new",{name:nn,heading:heading})
                 resolve(nn);
+                createPips(heading);
 
             })
             

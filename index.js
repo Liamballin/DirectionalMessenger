@@ -12,12 +12,15 @@ const path = require("path")
 const chats = [];
 const users = [];
 
-app.use(express.static(__dirname+"/web"))  
+app.use(express.static(__dirname+"/web")) 
+app.use(express.static(__dirname+"/web/reactTest"))  
 
 app.get("/", (req,res)=>{
     // res.sendFile(__dirname + '/pos.html')
     res.sendFile(__dirname+'/web/compass.html')
 })
+
+
 
 app.get("/test", (req,res)=>{
     res.sendFile(__dirname+"/web/rotate.html")
