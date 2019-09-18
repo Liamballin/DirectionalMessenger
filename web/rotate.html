@@ -48,6 +48,7 @@
 
         setCompass()
 
+
         function onDeviceMove(a, acc){
             alpha = a;
             var div = document.getElementById("compass")
@@ -66,13 +67,56 @@
                 return a;
             }
         }
+
+
         
         
+        </script>
+
+        <script>
+
+                function loaded(){
+                    generatePois();
+                    generateDashes();
+                }
+
+                function generateDashes(){
+                    var count = 36;
+                    var dist = 360/count;
+                    var p = document.getElementById("compass");
+                    for(i = 0; i < count; i++){
+                        var n = document.createElement("div");
+                        n.className = "dash";
+                        n.style.webkitTransform = "rotate("+dist*i+"deg)";
+                        p.appendChild(n);
+
+                    }
+                }
+
+                function generatePois(){
+                    generatePoi(0);
+                    generatePoi(10);
+                    generatePoi(15);
+                    generatePoi(25);
+                }
+
+                function generatePoi(deg){
+                    console.log("Making..")
+                    var p = document.getElementById("compass");
+
+                    var n1 = document.createElement("div");
+                    n1.className = "poi";
+                    n1.style.webkitTransform = "rotate("+deg+"deg)";
+                    n1.style.backgroundColor = "red";
+                    p.appendChild(n1);
+                }
+
         </script>
     <style>
         body{
             overflow:hidden;
             position:fixed;
+            background-color:black;
         }
         #compass{
             width: 250vw;
@@ -85,11 +129,11 @@
             background: rgb(131,58,180); 
             /* background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 43%, rgba(252,176,69,1) 100%); */
             border:1px solid red;
-            -webkit-transform-origin:center;
-            -webkit-transition: all 0.9s ease-in-out;
-            -moz-transition: all 0.9s ease-in-out;
-            -o-transition: all 0.9s ease-in-out;
-            transition: all 0.9s ease-in-out;
+            /* -webkit-transform-origin:center; */
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
         .poi{
             width:10vw;
@@ -98,44 +142,48 @@
             position: absolute;
             background-color: black;
             left:120vw;
-            /* top:10vw; */
-            /* -webkit-transition: all 0.5s ease-in-out;
-            -moz-transition: all 0.5s ease-in-out;
-            -o-transition: all 0.5s ease-in-out;
-            transition: all 0.5s ease-in-out; */
+            -webkit-transform: rotate(0deg);
+           -webkit-transform-origin:50% 125vw;
+           -webkit-transition: all 0.3s ease-in-out;
+           -moz-transition: all 0.3s ease-in-out;
+           -o-transition: all 0.3s ease-in-out;
+           transition: all 0.3s ease-in-out;
 
+        }
+
+        .dash{
+            height:10vw;
+            width:2vw;
+            z-index: 9;
+            position: absolute;
+            background-color: white;
+            left:120vw;
+            -webkit-transform: rotate(0deg);
+           -webkit-transform-origin:50% 125vw;
         }
 
         #point1{
 
             background-color: red;
            -webkit-transform: rotate(10deg);
-           -webkit-transform-origin:50% 125vw;
-           -webkit-transition: all 0.9s ease-in-out;
-           -moz-transition: all 0.9s ease-in-out;
-           -o-transition: all 0.9s ease-in-out;
-           transition: all 0.9s ease-in-out;
+
 
        }
 
         #point2{
             background-color: blue;
             -webkit-transform: rotate(45deg);
-            -webkit-transform-origin:50% 125vw;
-            -webkit-transition: all 0.9s ease-in-out;
-            -moz-transition: all 0.9s ease-in-out;
-            -o-transition: all 0.9s ease-in-out;
-            transition: all 0.9s ease-in-out;
+ 
 
         }
 
 
     </style>
-    <body>
+    <body onload="loaded()">
 
          <div id="compass">
-                <div class="poi" id="point1" ></div>
-                <div class="poi" id="point2" ></div>
+                <!-- <!-- <div class="poi" id="point1" ></div> -->
+                <div class="poi" id="point2" ></div> -->
          </div>
 
          <script>
