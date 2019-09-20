@@ -67,34 +67,34 @@ class User{
             printUpdate();
             var foundMatch = false;
 
-            for(i = 0; i < users.length;i++){
-                if(users[i].name != this.name){
-                    let d1 = Math.abs(users[i].heading - this.heading)
-                    let d2 = Math.abs(getOppAngle(users[i].heading) - this.heading)
-                    let d;
-                    if(d1 < d2){
-                        d = d1;
-                    }else{
-                        d = d2;
-                    }
-                    if(d < detectThreshold){
-                        if(!this.lastMatch){
-                            this.socket.emit("match", {
-                                user:users[i].name,
-                                distance:d
-                            })
-                            this.lastMatch = true;
+            // for(i = 0; i < users.length;i++){
+            //     if(users[i].name != this.name){
+            //         let d1 = Math.abs(users[i].heading - this.heading)
+            //         let d2 = Math.abs(getOppAngle(users[i].heading) - this.heading)
+            //         let d;
+            //         if(d1 < d2){
+            //             d = d1;
+            //         }else{
+            //             d = d2;
+            //         }
+            //         if(d < detectThreshold){
+            //             if(!this.lastMatch){
+            //                 this.socket.emit("match", {
+            //                     user:users[i].name,
+            //                     distance:d
+            //                 })
+            //                 this.lastMatch = true;
                             
-                        }
-                        foundMatch = true;
-                    }
-                }
-            }
+            //             }
+            //             foundMatch = true;
+            //         }
+            //     }
+            // }
 
-            if(!foundMatch && this.lastMatch){
-                this.socket.emit("noMatch");
-                this.lastMatch = false;
-            }
+            // if(!foundMatch && this.lastMatch){
+            //     this.socket.emit("noMatch");
+            //     this.lastMatch = false;
+            // }
 
             
 
