@@ -139,7 +139,19 @@
                         if(!headingSet){
                             showPopup(true)
                         }
-
+                    // console.log("adding scroll listener")
+                    window.addEventListener("wheel", (event)=>{
+                        var delta = Math.sign(event.deltaY);
+            
+                        alpha += delta*2;
+                        if(alpha >= 360){
+                            alpha = 0;
+                        }else if(alpha < 0){
+                            alpha = 360;
+                        }
+                        onDeviceMove(alpha)
+                    })
+                    onDeviceMove(alpha);
 
 
                     }else{
