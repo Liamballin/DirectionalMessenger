@@ -272,7 +272,7 @@ body{
     color: white;
     /* background-color: rgb(109, 167, 255); */
     /* width: 5vw; */
-    border:1px solid #F74C4C;
+    border:2px solid #F74C4C;
     border-radius: 2vw;
     position:relative;
     vertical-align: bottom;
@@ -290,7 +290,7 @@ body{
         font-weight: lighter;
         color: white;
         /* background-color: rgb(109, 167, 255); */
-        border:1px solid #5DCAE9;
+        border:2px solid #5DCAE9;
         /* width: 5vw; */
         border-radius: 5vw;
         position:relative;
