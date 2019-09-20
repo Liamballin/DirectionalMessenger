@@ -294,7 +294,7 @@
     function sendChat(){
         var chatText = document.getElementById('textInput').value;
         document.getElementById('textInput').value = "";
-        
+        if(chatText != ""){
         if(currentChat){
 
             addMessageToChat(chatText, currentChat.id, "me", true)
@@ -314,6 +314,7 @@
                 // console.log(chats)
             });
         }
+    }
     }
 
     function createNewChat(heading){
