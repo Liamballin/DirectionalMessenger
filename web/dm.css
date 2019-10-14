@@ -90,7 +90,7 @@ body {
 
 .pip{
     /* display: block; */
-    /* position: absolute; */
+    position: absolute;
     width:150vw;
     height: auto;
     top:55vh;
