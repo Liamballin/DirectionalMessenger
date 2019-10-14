@@ -336,6 +336,7 @@ var io = io();
         for(var ci = 0; ci < user.chats.length;ci++){    //loop through every chat 
             var currentChat = user.chats[ci];
             var c = createChatElement(currentChat.id);
+            c.className = "chatElement"
 
             if(currentChat.messages){ //check if chat has any messages to render
             for(i = 0; i < currentChat.messages.length;i++){

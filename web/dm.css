@@ -21,6 +21,20 @@ body {
     top: 0px;
 }
 
+#chatParent{
+    border: 3px solid red;
+    width:100vw;
+    height:60vh;
+}
+
+.chatElement{
+    position: absolute;
+    overflow: scroll;
+    /* border: 1px solid red; */
+    width:100vw;
+    height:40vh;
+}
+
 #qMark{
     position: absolute;
     width:12vw;
