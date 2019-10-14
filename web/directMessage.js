@@ -181,9 +181,9 @@ var io = io();
     //     }
     function setCompass(){
         //! FOR FLICK MOVEMENT DETECTION
-        if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', deviceMotionHandler);
-          }
+        // if (window.DeviceMotionEvent) {
+        //     window.addEventListener('devicemotion', deviceMotionHandler);
+        //   }
 
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
@@ -333,13 +333,20 @@ var io = io();
             document.getElementById("chatParent").innerHTML  = "";
         console.log(user);
         if(user.chats.length>0){
+
         for(var ci = 0; ci < user.chats.length;ci++){    //loop through every chat 
             var currentChat = user.chats[ci];
             var c = createChatElement(currentChat.id);
             c.className = "chatElement"
 
             if(currentChat.messages){ //check if chat has any messages to render
-            for(i = 0; i < currentChat.messages.length;i++){
+                var start = 0;
+                var max = 5;
+                if(currentChat.messages.length > max){
+                    var start = currentChat.messages.length - max;
+                }
+            
+                for(i = start; i < currentChat.messages.length;i++){
                 // var t=  document.createTextNode(currentChat.messages[i].sender+":   "+currentChat.messages[i].text);
                 var t=  document.createTextNode(currentChat.messages[i].text);
 

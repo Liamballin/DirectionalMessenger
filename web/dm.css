@@ -24,7 +24,7 @@ body {
 #chatParent{
     border: 3px solid red;
     width:100vw;
-    height:60vh;
+    height:70vh;
 }
 
 .chatElement{
@@ -32,7 +32,7 @@ body {
     overflow: scroll;
     /* border: 1px solid red; */
     width:100vw;
-    height:40vh;
+    height:70vh;
 }
 
 #qMark{
