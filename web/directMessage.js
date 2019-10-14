@@ -255,12 +255,15 @@ var io = io();
         var chatAngle = 75;
         
         var div = document.getElementById("dial")
-        div.style.webkitTransform = 'rotate('+deg+"deg)"
-        // var pips = document.getElementsByClassName("pip");
+        div.style.webkitTransform = 'rotate('+-1*deg+"deg)"
+        var pips = document.getElementsByClassName("pip");
         // pips.forEach((pip)=>{
         //     pip.style.webkitTransform = 'rotate('+deg+")"
         // })
-        // div.style.webkitTransform = 'rotate('+deg+"deg)"
+        for(i = 0; i < pips.length;i++){
+            pips[i].style.webkitTransform = 'rotate('+ -1*circularize(deg-(pips[i].id))+"deg)"
+            console.log(circularize(deg-(pips[i].id)))
+        }
 
         
     }
@@ -369,7 +372,7 @@ var io = io();
         document.getElementById("chatParent").appendChild(c);
     }
     setActiveChat();    //update opacities
-    // setPips();
+        setPips();
     }
     }
 
