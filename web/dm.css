@@ -62,7 +62,7 @@ body {
     display: block;
     position: absolute;
     width: 150vw;
-    height: auto;
+    height: 150vw;
     top: 55vh;
     left: -25.25vw;
     overflow: hidden;
@@ -94,7 +94,7 @@ body {
     /* display: block; */
     position: absolute;
     width:150vw;
-    height: auto;
+    height: 150vw;
     top:55vh;
     left:-27vw;
     overflow: hidden;
