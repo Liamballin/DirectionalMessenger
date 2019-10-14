@@ -5,20 +5,22 @@ html {
 
 body {
     background-color: #000000;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100vw;
     position: fixed;
+
 
 }
 
 #page {
     display: block;
     position: relative;
-    width: 100vw;
+    width: 102vw;
     height: 100vh;
     overflow: hidden;
-    left: -1px;
-    top: -1px;
+    left: -1vw;
+    top: -1vw;
+    margin-left:-1vw;
 }
 
 #chatParent{
@@ -62,7 +64,7 @@ body {
     width: 150vw;
     height: auto;
     top: 55vh;
-    left: -27vw;
+    left: -25.25vw;
     overflow: hidden;
 
 }
@@ -72,7 +74,7 @@ body {
     height: auto;
     top: 55vh;
     left: -27vw;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #pipParent{
@@ -103,7 +105,7 @@ body {
     position: absolute;
     width: 30vw;
     height: auto;
-    left: 33.5vw;
+    left: 35.25vw;
     top: 69vh;
     overflow: hidden;
     /* display: none; */
@@ -114,7 +116,7 @@ body {
     position: absolute;
     width: 30vw;
     height: auto;
-    left: 33.5vw;
+    left: 35.25vw;
     top: 69vh;
     overflow: hidden;
 
