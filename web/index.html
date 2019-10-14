@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#000000">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script src="directMessage.js"></script>
+    <link rel="shortcut icon" href="/images/icons/iconRed512.png" type="image/x-icon">
 </head>
 
 <body onload="loaded()">
@@ -44,4 +45,11 @@
 
         </div>
     </div>
+    <script>
+            if('serviceWorker' in navigator) {
+              navigator.serviceWorker
+                       .register('/sw.js')
+                       .then(function() { console.log("Service Worker Registered"); });
+            }
+            </script>
 </body>

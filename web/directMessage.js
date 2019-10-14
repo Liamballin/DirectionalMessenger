@@ -25,6 +25,8 @@ var io = io();
         console.log("Logged in as "+name);
     })
 
+
+
     io.on("startChats", (startChats)=>{
         user.chats = startChats;
         user.loaded = true;
@@ -262,7 +264,7 @@ var io = io();
         // })
         for(i = 0; i < pips.length;i++){
             pips[i].style.webkitTransform = 'rotate('+ -1*circularize(deg-(pips[i].id))+"deg)"
-            console.log(circularize(deg-(pips[i].id)))
+           // console.log(circularize(deg-(pips[i].id)))
         }
 
         
@@ -281,6 +283,10 @@ var io = io();
        }
 
     function loaded(){
+        window.addEventListener("offline",()=>{
+            console.log("Client recognizes offline")
+            window.location.href = "/offline";
+        })
         setCompass();   //add event listeners
         setButtons();
         renderChat();   //create initial html elements 

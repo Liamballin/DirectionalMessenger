@@ -10,9 +10,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname+"/web"))
 app.use(express.static(__dirname+"/web/images"))
+app.use(express.static(__dirname+"/web/images/icons"))
 
 app.get("/", (req, res)=>{
     res.sendFile(__dirname+'/web/index.html')
+})
+
+app.get("/offline", (req, res)=>{
+    res.sendFile(__dirname+'/web/offline.html')
 })
 
 var chats = [];

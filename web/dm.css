@@ -31,7 +31,7 @@ body {
 
 .chatElement{
     position: absolute;
-    overflow: scroll;
+    /* overflow: scroll; */
     /* border: 1px solid red; */
     width:100vw;
     height:70vh;

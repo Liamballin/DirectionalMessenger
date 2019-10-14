@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A Direct Message</title>
+        <meta name="theme-color" content="#000000">
+        <style>
+
+            body{
+                background-color: black;
+            }
+        #title{
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+        }
+        #titleBox{
+            top:40vh;
+            margin-top:40vh;
+            text-align: center;
+            
+        }
+        </style>
+    </head>
+    <script>
+            function loaded(){
+                console.log("Loaded started")
+                window.addEventListener('online', function(event){
+                    console.log("You are now back online.");
+                    window.location.href="/"
+                });
+            }
+        </script>
+    <body onload="loaded()">
+        <div id="titleBox">
+        <h1 id="title">
+            Connect to the internet to use A Direct Message
+        </h1>
+    </div>
+    </body>
+
+
+</html>
