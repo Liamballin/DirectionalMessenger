@@ -15,12 +15,12 @@ body {
 #page {
     display: block;
     position: relative;
-    width: 100vw;
+    width: 102vw;
     height: 100vh;
     overflow: hidden;
-    /* left: -1vw;
-    top: -1vw; */
-    /* margin-left:-1vw; */
+    left: -1vw;
+    top: -1vw;
+    margin-left:-1vw;
 }
 
 #chatParent{
@@ -64,7 +64,7 @@ body {
     width: 150vw;
     height: 150vw;
     top: 55vh;
-    left: -26.5vw;
+    left: -25.25vw;
     overflow: hidden;
     transform-origin: 50% 50%;
 
@@ -76,7 +76,7 @@ body {
     width:150vw;
     height: 150vw;
     top:55vh;
-    left: -26.5vw;
+    left: -25.25vw;
     overflow: hidden;
     z-index: 100;
     /* transform: rotate(55deg); */
