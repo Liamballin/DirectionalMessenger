@@ -70,6 +70,18 @@ body {
 
 }
 
+.pip{
+    display: block;
+    position: absolute;
+    width:150vw;
+    height: 150vw;
+    top:55vh;
+    left: -25.25vw;
+    overflow: hidden;
+    z-index: 100;
+    /* transform: rotate(55deg); */
+}
+
 #dialParent {
     width: 150vw;
     height: auto;
@@ -90,17 +102,7 @@ body {
     
 }
 
-.pip{
-    /* display: block; */
-    position: absolute;
-    width:150vw;
-    height: 150vw;
-    top:55vh;
-    left:-27vw;
-    overflow: hidden;
-    z-index: 100;
-    /* transform: rotate(55deg); */
-}
+
 
 #buttonEmpty {
     display: block;
