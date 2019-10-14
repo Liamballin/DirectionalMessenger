@@ -18,8 +18,8 @@ body {
     width: 102vw;
     height: 100vh;
     overflow: hidden;
-    left: -1vw;
-    top: -1vw;
+    /* left: -1vw;
+    top: -1vw; */
     margin-left:-1vw;
 }
 
