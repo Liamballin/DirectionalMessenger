@@ -16,36 +16,36 @@ app.get("/", (req, res)=>{
 })
 
 var chats = [];
-var chats = [
-    {
-        heading:0,
-        id:"123123123",
-        messages:    
-        [
-        {
-        sender:"bot",
-        text:"hello",
-        time:"0200303030"
-        }, 
-        {
-        sender:"me",
-        text:"hey",
-        time:"0200303030"
-        }
-    ]
-    },
-    {
-        heading:45,
-        id:"696969696",
-        messages:[
-            {
-                sender:"sever",
-                text:"at heading 45",
-                time:"1232323",
-            }
-        ]
-    }
-]
+// var chats = [
+//     {
+//         heading:0,
+//         id:"123123123",
+//         messages:    
+//         [
+//         {
+//         sender:"bot",
+//         text:"hello",
+//         time:"0200303030"
+//         }, 
+//         {
+//         sender:"me",
+//         text:"hey",
+//         time:"0200303030"
+//         }
+//     ]
+//     },
+//     {
+//         heading:45,
+//         id:"696969696",
+//         messages:[
+//             {
+//                 sender:"sever",
+//                 text:"at heading 45",
+//                 time:"1232323",
+//             }
+//         ]
+//     }
+// ]
 var users = [];
 
 class User{
