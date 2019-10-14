@@ -1,137 +1,158 @@
 var app = require('express')();
+var express = require("express")
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-rid = require('readable-id')
+var rid = require('readable-id')
 
 
-const port = 3000; //process.env.PORT || 3000 for heroku/local
+const port = process.env.PORT || 3000;//// for heroku/local
 const path = require("path")
 
+
+const chats = [];
+const users = [];
+
+app.use(express.static(__dirname+"/web")) 
+app.use(express.static(__dirname+"/web/reactTest"))  
+
 app.get("/", (req,res)=>{
-    res.sendFile(__dirname + '/movement.html')
+    // res.sendFile(__dirname + '/pos.html')
+    res.sendFile(__dirname+'/web/newChat.html')
 })
 
 
 
-
-
-// var peers = [];
-var rooms = [];
+app.get("/test", (req,res)=>{
+    res.sendFile(__dirname+"/web/rotate.html")
+})
 
 io.on('connection',(socket)=>{
-    var address = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
-    console.log(rooms)
-    for(i = 0; i < rooms.length;i++){
-        if(rooms[i].ip == address){
-            for(i = 0; i < rooms[i].peers;i++){
-                // if()
-            }
-            rooms[i].peers.push(new Peer(socket, address))
-            return;
-        }
-    }
-
-    var r = new Room(address)
-    r._join(new Peer(socket,address))
-    rooms.push(r)
-    
-    // peers.push()
+    users.push(new User(socket));
 })
 
-class Room {
 
-    constructor(ip){
-        this.ip = ip;
-        this.peers = [];
-        this.id = rid();
-    }
-
-    sendToAll(message){
-        for(i = 0; i < this.peers.length; i++){
-            this.peers[i]._sendMessage(message);
+function addMessageToChat(msg){
+    for(i = 0; i< chats.length; i++){
+        if(chats[i].name == msg.chat){
+            chats[i].messages.push(msg)
         }
     }
-
-    _join(peer){
-        console.log(peer.id + " is joining room "+this.id)
-        this.peers.push(peer)
-    }
-
 }
 
-
-class Peer  {
-    
-    constructor(socket, ip){
+class User{
+    constructor(socket){
         this.socket = socket;
-        this.ip = ip;
-        this.socket.on('chat',message =>{
-            this._onMessage(message)
+        this.self = this;
+        this.name = rid()
+        this.messageCount = 0;
+        this.heading;
+        this.lastMatch;
+        printUpdate()
+
+        //send all chats for new user to load
+        this.socket.emit("chats",chats);
+        this.socket.emit("name",this.name);
+    
+        //on sending a message from the client, it is saved and broadcast.
+        this.socket.on("msg",(msg)=>{
+            this.messageCount ++;
+            console.log(msg)
+            printUpdate()
+            addMessageToChat(msg)
+            this.socket.broadcast.emit("msg", msg)
+        })
+
+        this.socket.on("heading",(deg)=>{
+            var detectThreshold = 20;
+            this.heading = deg;
+            printUpdate();
+            var foundMatch = false;
+
+            // for(i = 0; i < users.length;i++){
+            //     if(users[i].name != this.name){
+            //         let d1 = Math.abs(users[i].heading - this.heading)
+            //         let d2 = Math.abs(getOppAngle(users[i].heading) - this.heading)
+            //         let d;
+            //         if(d1 < d2){
+            //             d = d1;
+            //         }else{
+            //             d = d2;
+            //         }
+            //         if(d < detectThreshold){
+            //             if(!this.lastMatch){
+            //                 this.socket.emit("match", {
+            //                     user:users[i].name,
+            //                     distance:d
+            //                 })
+            //                 this.lastMatch = true;
+                            
+            //             }
+            //             foundMatch = true;
+            //         }
+            //     }
+            // }
+
+            // if(!foundMatch && this.lastMatch){
+            //     this.socket.emit("noMatch");
+            //     this.lastMatch = false;
+            // }
+
+            
+
+
         })
 
 
-        this.socket.on('disconnect',()=>{
-            console.log(this.id +" disconnected.")
-        })
-      
-        
-        this._lastPing = 0;
-        this.sendTime = 0;
-        this.pingable = true;
-        this.id = rid();
-        console.log("Device "+this.id+" connected on "+this.ip)
-
-        this.socket.emit("name",this.id)
-    }
-
-    _onMessage(message){
-        var chat = {
-            id:this.id,
-            data:message
-        }
-        for(i = 0; i< rooms.length;i++){
-            if(rooms[i].ip == this.ip){
-                this._sendAll(chat, rooms[i])
-                return;
+        this.socket.on("disconnect",()=>{
+            // console.log("User disconneted")
+            // users.splice(users.indexOf(this.self),1);
+            for(i = 0; i< users.length;i++){
+                if(users[i].name == this.name){
+                    users.splice(i,1)
+                }
             }
-        }
-
+            printUpdate()
+        })
+    
+        this.socket.on("new",chat=>{
+            console.log("New chat: ")
+            console.log(chat)
+            printUpdate()
+            chats.push(chat)
+            socket.broadcast.emit("chats",[chat]);
+    
+        })
     }
 
-    _sendAll(message, room){
-        for(i = 0; i < room.peers.length;i++){
-            room.peers[i]._sendMessage(message)
-        }
-    }
-
-    _sendMessage(message){
-        this.socket.emit('chat',message)
-    }
-
-    // _ping(){
-    //     if(this.pingable){
-    //         // console.log("pinging "+this.id)
-    //         this.socket.emit('t')
-    //         this.sendTime = process.hrtime();
-    //         this.pingable = false;
-    //     }
-    // }
-    // _pong(time){
-    //     // console.log(time)
-    //     var rT = new Date(time)
-    //     var travelTime = process.hrtime(this.sendTime);
-    //     console.log(travelTime)
-    //     // console.log(this.id+": "+ " %ds %dms", travelTime[0], travelTime[1] / 1000000+" ms");
-    //     this._info(travelTime)
-    //     this.lastPing = time;
-    //     this.pingable = true;
-    // }
-
-    // _info(message){
-    //     this.socket.emit('info', message)
-    // }
+    
 }
 
-http.listen(3000, ()=>{
-    console.log("listning on 3000")
+function getOppAngle(angle){
+    if(angle+180>360){
+        return angle-180;
+    }else{
+        return angle+180;
+    }
+}
+
+function printUpdate(){
+    console.clear();
+    console.log("A DIRECT MESSAGE")
+    
+    console.log("Running on " + port)  
+    console.log('\n\n')
+    console.log(users.length+ " active users");
+    console.log("\n")
+    for(i =0;i< users.length;i++){
+        console.log("   > "+users[i].name);
+        console.log("       [M]"+users[i].messageCount + " messages sent.")
+        console.log("       [H]"+ "Heading: "+users[i].heading)
+    }
+    
+    console.log("\n[C]"+chats.length + " active chats")
+}
+
+
+http.listen(port, ()=>{
+printUpdate()
 })
