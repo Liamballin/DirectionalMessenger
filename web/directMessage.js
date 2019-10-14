@@ -17,7 +17,7 @@ var io = io();
 
     var buttonState = {
         text:"",
-        state:bStates.loaded
+        state:bStates.empty
     }
 
     io.on("name",(name)=>{
@@ -41,6 +41,7 @@ var io = io();
         }else if(buttonState.state == bStates.open){
             buttonState.state = bStates.loaded;
         }else if(buttonState.state == bStates.loaded){
+            sendMessage();
             buttonState.state = bStates.empty;
         }
 
@@ -59,11 +60,11 @@ var io = io();
   
             sender:user.name,
             id:uuidv4(),
-            text:document.getElementById("chatInput").value,
+            text:document.getElementById("openTextbox").value,
             time:new Date()
         }
         
-        document.getElementById("chatInput").value = "";
+        document.getElementById("openTextbox").value = "";
 
         console.log(message)
         console.log("Active chat: "+user.activeChat)
@@ -180,14 +181,16 @@ var io = io();
     //     }
     function setCompass(){
         //! FOR FLICK MOVEMENT DETECTION
-        // if (window.DeviceMotionEvent) {
-        //     window.addEventListener('devicemotion', deviceMotionHandler);
-        //   }
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', deviceMotionHandler);
+          }
 
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
                 // console.log("Adding magnetic compass listener")
-                onDeviceMove(alpha,accuracy)
+                var    alpha = event.webkitCompassHeading; 
+
+                onDeviceMove(alpha)
             }else{
                 if(typeof window.DeviceOrientationEvent !== "undefined"){
                     //android
@@ -236,6 +239,14 @@ var io = io();
         user.alpha = alpha;
         rotateCompass(alpha)
         setActiveChat();
+    }
+
+    var threshold = 150;
+    function deviceMotionHandler(event){
+        let a = event.rotationRate.beta;
+        if(a > threshold && buttonState.state == bStates.loaded){
+            sendMessage();
+        }
     }
 
     function rotateCompass(deg){
@@ -328,9 +339,11 @@ var io = io();
 
             if(currentChat.messages){ //check if chat has any messages to render
             for(i = 0; i < currentChat.messages.length;i++){
-                var t=  document.createTextNode(currentChat.messages[i].sender+":   "+currentChat.messages[i].text);
+                // var t=  document.createTextNode(currentChat.messages[i].sender+":   "+currentChat.messages[i].text);
+                var t=  document.createTextNode(currentChat.messages[i].text);
+
                 var container = document.createElement("div");
-                if(currentChat.messages[i].sender == user.sender){
+                if(currentChat.messages[i].sender == user.name){
                     container.className = "message sent";
                 }else{
                     container.className = "message receive";

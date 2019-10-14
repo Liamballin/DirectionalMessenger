@@ -65,7 +65,7 @@ body {
         top: 55vh;
         left: -27vw;
         overflow: hidden;
-        border:1px solid red;
+        /* border:1px solid red; */
         position: absolute;
     
 }
@@ -121,7 +121,7 @@ body {
 
 #openBackground{
     position: absolute;
-    width:100vw;
+    width:101vw;
     height:10vh;
     background-color: #333333;
     top:77vh;
