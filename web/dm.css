@@ -109,6 +109,8 @@ body {
     left: 35.25vw;
     top: 69vh;
     overflow: hidden;
+    z-index: 101;
+
     /* display: none; */
 
 }
@@ -120,6 +122,8 @@ body {
     left: 35.25vw;
     top: 69vh;
     overflow: hidden;
+    z-index: 101;
+
 
 }
 
