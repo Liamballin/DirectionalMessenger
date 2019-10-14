@@ -83,6 +83,7 @@ body {
         top: 55vh;
         left: -27vw;
         overflow: hidden;
+        pointer-events: none;
         /* border:1px solid red; */
         /* position: absolute; */
     
