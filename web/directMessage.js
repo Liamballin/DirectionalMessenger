@@ -181,9 +181,9 @@ var io = io();
     //     }
     function setCompass(){
         //! FOR FLICK MOVEMENT DETECTION
-        // if (window.DeviceMotionEvent) {
-        //     window.addEventListener('devicemotion', deviceMotionHandler);
-        //   }
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', deviceMotionHandler);
+          }
 
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {

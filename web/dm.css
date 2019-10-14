@@ -22,7 +22,7 @@ body {
 }
 
 #chatParent{
-    border: 3px solid red;
+    /* border: 3px solid red; */
     width:100vw;
     height:70vh;
 }
@@ -33,6 +33,7 @@ body {
     /* border: 1px solid red; */
     width:100vw;
     height:70vh;
+    left:7vw;
 }
 
 #qMark{
@@ -52,6 +53,7 @@ body {
     top: 10vh;
     overflow: scroll;
     margin: auto;
+    /* right:50vw; */
 }
 
 #dial {
