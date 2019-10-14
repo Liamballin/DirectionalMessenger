@@ -3,12 +3,12 @@
   "name": "Directional Messenger",
   "icons": [
     {
-      "src": "/images/message icon white.png",
+      "src": "/images/icons/icon192",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src":  "/images/message icon white.png",
+      "src":  "/images/icons/icon512",
       "type": "image/png",
       "sizes": "512x512"
     }
