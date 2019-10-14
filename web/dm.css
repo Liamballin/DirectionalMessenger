@@ -5,7 +5,7 @@ html {
 
 body {
     background-color: #000000;
-    /* overflow: hidden; */
+    overflow: hidden;
     width: 100vw;
     position: fixed;
 
@@ -64,7 +64,7 @@ body {
     width: 150vw;
     height: 150vw;
     top: 55vh;
-    left: -25.25vw;
+    left: -26.5vw;
     overflow: hidden;
     transform-origin: 50% 50%;
 
@@ -76,7 +76,7 @@ body {
     width:150vw;
     height: 150vw;
     top:55vh;
-    left: -25.25vw;
+    left: -26.5vw;
     overflow: hidden;
     z-index: 100;
     /* transform: rotate(55deg); */
