@@ -163,21 +163,74 @@ var io = io();
         
     }
 
-    function setCompass(){
-        console.log("Adding device listener")
-            window.addEventListener("wheel", (event)=>{
-                        var delta = Math.sign(event.deltaY);
-                        var alpha = user.alpha;
-                        alpha += delta*2;
-                        if(alpha >= 360){
-                            alpha = 0;
-                        }else if(alpha < 0){
-                            alpha = 360;
-                        }
-                        onDeviceMove(alpha)
+    // function setCompass(){
+    //     console.log("Adding device listener")
+    //         window.addEventListener("wheel", (event)=>{
+    //                     var delta = Math.sign(event.deltaY);
+    //                     var alpha = user.alpha;
+    //                     alpha += delta*2;
+    //                     if(alpha >= 360){
+    //                         alpha = 0;
+    //                     }else if(alpha < 0){
+    //                         alpha = 360;
+    //                     }
+    //                     onDeviceMove(alpha)
 
-                    })
-        }
+    //                 })
+    //     }
+    function setCompass(){
+        //! FOR FLICK MOVEMENT DETECTION
+        // if (window.DeviceMotionEvent) {
+        //     window.addEventListener('devicemotion', deviceMotionHandler);
+        //   }
+
+        window.addEventListener('deviceorientation', function(event) {
+            if (typeof event.webkitCompassHeading !== "undefined") {
+                // console.log("Adding magnetic compass listener")
+                onDeviceMove(alpha,accuracy)
+            }else{
+                if(typeof window.DeviceOrientationEvent !== "undefined"){
+                    //android
+                    // if(!headingSet){
+                    //     showPopup(true)
+                    // }
+                // console.log("adding scroll listener")
+                window.addEventListener("wheel", (event)=>{
+                    var delta = Math.sign(event.deltaY);
+                    var alpha = user.alpha;
+                    alpha += delta*2;
+                    if(alpha >= 360){
+                        alpha = 0;
+                    }else if(alpha < 0){
+                        alpha = 360;
+                    }
+                    onDeviceMove(alpha)
+                })
+                // onDeviceMove(alpha);
+
+
+                }else{
+                    //dont think this will ever work
+                    // console.log("Desktop client?")
+                    alert("Desktop")
+                
+                // console.log("adding scroll listener")
+                window.addEventListener("wheel", (event)=>{
+                    var delta = Math.sign(event.deltaY);
+        
+                    alpha += delta*2;
+                    if(alpha >= 360){
+                        alpha = 0;
+                    }else if(alpha < 0){
+                        alpha = 360;
+                    }
+                    onDeviceMove(alpha)
+                })
+                onDeviceMove(alpha);
+                }
+            }
+        })      
+    }
 
     function onDeviceMove(alpha){
         user.alpha = alpha;
@@ -190,10 +243,10 @@ var io = io();
         
         var div = document.getElementById("dial")
         div.style.webkitTransform = 'rotate('+deg+"deg)"
-        var pips = document.getElementsByClassName("pip");
-        pips.forEach((pip)=>{
-            pip.style.webkitTransform = 'rotate('+deg+")"
-        })
+        // var pips = document.getElementsByClassName("pip");
+        // pips.forEach((pip)=>{
+        //     pip.style.webkitTransform = 'rotate('+deg+")"
+        // })
         // div.style.webkitTransform = 'rotate('+deg+"deg)"
 
         
@@ -293,7 +346,7 @@ var io = io();
         document.getElementById("chatParent").appendChild(c);
     }
     setActiveChat();    //update opacities
-    setPips();
+    // setPips();
     }
     }
 
