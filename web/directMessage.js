@@ -246,6 +246,8 @@ var io = io();
         let a = event.rotationRate.beta;
         if(a > threshold && buttonState.state == bStates.loaded){
             sendMessage();
+            buttonState.state = bStates.empty;
+            renderButton()
         }
     }
 
