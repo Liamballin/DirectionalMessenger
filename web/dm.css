@@ -158,15 +158,29 @@ body {
 
 #openTextbox{
     width:70vw;
-    height:4vh;
-    border:2px solid white;
-    background-color: #070606;
+    height:6vh;
+    
+    /* background-color: #070606; */
     color:white;
     font-size:5vw;
     border-radius: 5vw;
-    margin-left: 2vw;
+    margin-left: 3vw;
     margin-top:1vh;
     padding-left: 5vw;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.tbBlack{
+    background-color: #070606;
+    border:2px solid white;
+}
+
+.tbRed{
+    background-color: #F74C4C;
+    border:none;
 }
 
 .message {

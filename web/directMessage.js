@@ -253,7 +253,16 @@ var io = io();
         }
     }
 
-    function rotateCompass(deg){
+    function textboxColor(){
+        var tb = document.getElementById("openTextbox");
+        if(tb.value.length > 0){
+            tb.className = "tbRed"
+        }else{
+            tb.className = "tbBlack"
+        }
+    }
+
+        function rotateCompass(deg){
         var chatAngle = 75;
         
         var div = document.getElementById("dial")
@@ -291,6 +300,11 @@ var io = io();
         document.getElementById("qMark").addEventListener("click",()=>{
             window.location.href = "http://adirectmessage.to"
         })
+
+        document.getElementById("openTextbox").addEventListener("input",()=>{
+            textboxColor();
+        })
+
         setCompass();   //add event listeners
         setButtons();
         renderChat();   //create initial html elements 
