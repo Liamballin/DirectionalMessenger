@@ -319,14 +319,31 @@ var io = io();
 
     function setPips(){
         document.getElementById("pipParent").innerHTML = "";
+        var flip = false;
         for(i = 0; i < user.chats.length;i++){
-            var p = document.createElement("img");
-            p.className = "pip";
-            p.src = "images/pip.png";
-            p.style.transform = "rotate("+user.chats[i].heading+"deg)";
-            p.id = user.chats[i].heading;
-            console.log("adding pip at heading "+user.chats[i].heading)
-            document.getElementById("pipParent").appendChild(p);
+          
+                var heading = user.chats[i].heading;
+                var headingO = getOppAngle(heading); 
+
+                var p = document.createElement("img");
+                p.className = "pip";
+                p.src = "images/pip.png";
+                p.style.transform = "rotate("+heading+"deg)";
+                p.id = heading;
+                console.log("adding pip at heading "+heading)
+                document.getElementById("pipParent").appendChild(p);
+
+                var pO = document.createElement("img");
+                pO.className = "pip";
+                pO.src = "images/pip.png";
+                pO.style.transform = "rotate("+headingO+"deg)";
+                pO.id = headingO;
+                console.log("adding pip at heading "+headingO)
+                document.getElementById("pipParent").appendChild(pO);
+
+                
+            
+
         }
     }
 

@@ -66,7 +66,7 @@ body {
     top: 55vh;
     left: -25.25vw;
     overflow: hidden;
-    transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
 
 }
 
