@@ -27,6 +27,7 @@ body {
     /* border: 3px solid red; */
     width:100vw;
     height:70vh;
+    margin-top:10vh;
 }
 
 .chatElement{
@@ -43,6 +44,7 @@ body {
     width:12vw;
     top:2.5vw;
     left:2vw;
+    z-index: 500;
 }
 
 

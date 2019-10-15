@@ -31,8 +31,8 @@ var io = io();
         user.chats = startChats;
         user.loaded = true;
         // console.log("Loaded chats")
-        console.log(startChats);
-        console.log("Chats loaded..")
+        // console.log(startChats);
+        // console.log("Chats loaded..")
         //  ();
         renderChat();
     })
@@ -48,7 +48,7 @@ var io = io();
         }
 
         //! A way to find key in object by value
-        console.log(Object.keys(bStates).find(key => bStates[key]===buttonState.state))
+        // console.log(Object.keys(bStates).find(key => bStates[key]===buttonState.state))
         renderButton();
     }
 
@@ -68,16 +68,16 @@ var io = io();
         
         document.getElementById("openTextbox").value = "";
 
-        console.log(message)
-        console.log("Active chat: "+user.activeChat)
+        // console.log(message)
+        // console.log("Active chat: "+user.activeChat)
 
         if(user.activeChat){ 
             var index = chatIndexFromId(user.activeChat)     
             if(index == undefined){
-                console.log("Idnotfound")
+                // console.log("Idnotfound")
             }else{
                 user.chats[index].messages.push(message)
-                console.log(user.chats)
+                // console.log(user.chats)
             }    
         }else{
             var newChat = {
@@ -96,16 +96,16 @@ var io = io();
     }
 
     function chatIndexFromId(id){
-        console.log("Hello from chatIndex finder")
+        // console.log("Hello from chatIndex finder")
         for(i =0;i<user.chats.length;i++){
-            console.log("at loop "+i)
+            // console.log("at loop "+i)
             if(user.chats[i].id === id){
-                console.log("Match with "+user.chats[i].id+" and "+id);
+                // console.log("Match with "+user.chats[i].id+" and "+id);
 
                 return i;
             }
-            console.log("No match")
-            console.log(user.chats[i].id+" and "+id);
+            // console.log("No match")
+            // console.log(user.chats[i].id+" and "+id);
         }
         return false;   //if chat not found
     }
@@ -287,6 +287,10 @@ var io = io();
             console.log("Client recognizes offline")
             window.location.href = "/offline";
         })
+
+        document.getElementById("qMark").addEventListener("click",()=>{
+            window.location.href = "http://adirectmessage.to"
+        })
         setCompass();   //add event listeners
         setButtons();
         renderChat();   //create initial html elements 
@@ -299,15 +303,12 @@ var io = io();
     function setButtons(){
 
         document.getElementById("buttonOpen").addEventListener("click", ()=>{
-            console.log("open button pressed")
             button()
         })
         document.getElementById("buttonLoaded").addEventListener("click", ()=>{
-            console.log("loaded button pressed")
             button()
         })
         document.getElementById("buttonEmpty").addEventListener("click", ()=>{
-            console.log("empty button pressed")
             button()
         })
 
@@ -330,7 +331,6 @@ var io = io();
                 p.src = "images/pip.png";
                 p.style.transform = "rotate("+heading+"deg)";
                 p.id = heading;
-                console.log("adding pip at heading "+heading)
                 document.getElementById("pipParent").appendChild(p);
 
                 var pO = document.createElement("img");
@@ -338,7 +338,6 @@ var io = io();
                 pO.src = "images/pip.png";
                 pO.style.transform = "rotate("+headingO+"deg)";
                 pO.id = headingO;
-                console.log("adding pip at heading "+headingO)
                 document.getElementById("pipParent").appendChild(pO);
 
                 
@@ -359,7 +358,6 @@ var io = io();
 
     function renderChat(){
             document.getElementById("chatParent").innerHTML  = "";
-        console.log(user);
         if(user.chats.length>0){
 
         for(var ci = 0; ci < user.chats.length;ci++){    //loop through every chat 
@@ -388,14 +386,15 @@ var io = io();
                 c.appendChild(container);
             }
         }else{
-            console.log("No messages");
-            console.log(currentChat)
+            // console.log("No messages");
+            // console.log(currentChat)
         }
 
         document.getElementById("chatParent").appendChild(c);
     }
     setActiveChat();    //update opacities
         setPips();
+        rotateCompass();
     }
     }
 
@@ -403,7 +402,8 @@ var io = io();
         empty:"buttonModeEmpty",
         open:"buttonModeOpen",
         loaded:"buttonModeLoaded",
-        dial:"dial"
+        dial:"dialParent",
+
     }
 
     function hide(id){

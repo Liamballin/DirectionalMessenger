@@ -20,47 +20,21 @@ app.get("/offline", (req, res)=>{
     res.sendFile(__dirname+'/web/offline.html')
 })
 
+setInterval(cleanUsers, 5000);
+
 var chats = [];
-// var chats = [
-//     {
-//         heading:0,
-//         id:"123123123",
-//         messages:    
-//         [
-//         {
-//         sender:"bot",
-//         text:"hello",
-//         time:"0200303030"
-//         }, 
-//         {
-//         sender:"me",
-//         text:"hey",
-//         time:"0200303030"
-//         }
-//     ]
-//     },
-//     {
-//         heading:45,
-//         id:"696969696",
-//         messages:[
-//             {
-//                 sender:"sever",
-//                 text:"at heading 45",
-//                 time:"1232323",
-//             }
-//         ]
-//     }
-// ]
+
 var users = [];
 
 class User{
     constructor(socket){
         this.socket = socket;
         this.name = rid();
+        this.connected = true;
         
         this.socket.emit("startChats", chats);
         this.socket.emit("name", this.name);
-        console.log("User "+this.name+" logged in")
+        // console.log("User "+this.name+" logged in")
         this.socket.on("update", (chatUpdate)=>{
             chats = chatUpdate;
             updateClients();
@@ -68,7 +42,9 @@ class User{
         })
 
         this.socket.on("disconnect",()=>{
-            console.log("Disconnected "+this.name);
+            // console.log("Disconnected "+this.name);
+            this.connected = false;
+            console.log(this.name+" DISCONNECTED")
         })
 
     }
@@ -76,9 +52,23 @@ class User{
 }
 
 function updateClients(){
+    console.log(users.length+" users connected.")
     for(i =0; i < users.length;i++){
         users[i].socket.emit("startChats", chats);
     }
+}
+
+function cleanUsers(){
+    // var removed = 0;
+    // console.log("Cleaning...")
+    // for(i =0;i<users.length;i++){
+    //     if(users[i].connected == false){
+    //         users.pop(i);
+    //         removed++;
+    //     }
+    // }
+    // console.log("Removed "+removed+" users")
+    // console.log(users.length+" users online")
 }
 
 function syncChats(newChat){
@@ -102,77 +92,25 @@ function syncChats(newChat){
     }
 }
 
-// function syncChats(newChat){
-//     for(ch = 0; ch < newChat.length;ch++){ // loop through NewChat incase there are new chats
-//         var foundChat = false;
 
-//         for(oc = 0; oc < chats.length;oc++){
-//             if(newChat[ch].id == chats[oc].id){
-//                 foundChat = true;
-//             }
-//         }
+// function isNewChat(chatObject){
+//     var id = chatObject.id;
+//     for(i = 0; i < chats.length;i++){
+//         if(chats[i].id == id){
 
-//         if(!foundChat){ //chat is new - doesn't match any other chats
-//             chats.push(newChat[ch])
+//             return i;
 //         }else{
-//             var matchingChat = chats[oc] //our chat object that matched the incoming chat object.
-//             var incomingChat = newChat[ch] // incoming chat with the same ID as the matching chat.
-//             console.log(chats)
-//             for(i = 0; i < incomingChat.messages.length;i++){
-//                 var foundMessage = false;
-//                 for(m = 0; m < chats[oc].messages.length;m++){
-//                     if(incomingChat.messages[i].id == matchingChat.messages[m].id){
-//                         foundMessage = true;
-//                     }
-//                 }
-//                 if(!foundMessage){
-//                     chats[oc].messages.push(newChat[ch].messages[i])
-//                 }
-//             }
+//             console.log("I dont match "+chats[i].id+" with "+id+" because im rarted");
+
 //         }
-
-
-//     }
-
-
-
-// }
-
-// function isNewMessage(messageObject, chatObject){
-//     console.log("Fuck")
-//     var id = messageObject.id;
-//     for(c = 0; c< chatObject.length;c++){
-//         for(m = 0; m < chats[i].messages.length;m++){
-//             if(chatObject[c].messages[m].id == id){
-//                 console.log("Im matching "+chatObject[c].messages[m].id+" with "+id);
-
-//                 return false;
-//             }else{
-//                 console.log("not matching "+chatObject[c].messages[m].id+" with "+id);
-
-//             }
-//         }
-
 //     }
 //     return true;
 // }
 
-function isNewChat(chatObject){
-    var id = chatObject.id;
-    for(i = 0; i < chats.length;i++){
-        if(chats[i].id == id){
-
-            return i;
-        }else{
-            console.log("I dont match "+chats[i].id+" with "+id+" because im rarted");
-
-        }
-    }
-    return true;
-}
-
 io.on('connection',(socket)=>{
     users.push(new User(socket));
+    console.log(users.length+" users connected.")
+
 })
 
 
