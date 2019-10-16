@@ -248,7 +248,7 @@ var io = io();
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
             if(user.offset == undefined){
-                user.offset = e.alpha;
+                user.offset = getDistance(e.alpha, 0);
             }
             let a = (-(e.alpha)+(user.offset)) 
                 if(a>=360){
