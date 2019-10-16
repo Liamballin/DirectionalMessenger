@@ -41,8 +41,8 @@ body {
 #popupIcon{
     width:30vw;
     left:35vw;
-    /* top:69vh; */
-    top:10vh;
+    top:69vh;
+    /* top:10vh; */
     position: absolute;
 }
 
