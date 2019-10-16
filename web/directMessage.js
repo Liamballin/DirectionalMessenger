@@ -247,23 +247,22 @@ var io = io();
     function confirmHeading(){
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
-            if(user.offset){
-                let a = (-(e.alpha)+(user.offset)) 
+            if(user.offset == undefined){
+                user.offset = e.alpha;
+            }
+            let a = (-(e.alpha)+(user.offset)) 
                 if(a>=360){
                     a -= 360
                 }else if(a < 0){
                     a += 360;
                 }
                 user.alpha = a;
-            }else{
-                user.offset = e.alpha;
-            }
             onDeviceMove(user.alpha)
-        }, true); //change to call onDeviceMove
-        // showPopup(false)
+        }); //remove true? 
+        
         hide("popup");
         user.androidHeadingSet = true;
-        // headingSet = true;
+        
 
         
     }
