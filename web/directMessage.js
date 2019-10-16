@@ -271,7 +271,7 @@ var io = io();
 
     function confirmHeading(){
         window.addEventListener("deviceorientation",(e)=>{
-            user.alpha = e.alpha;
+            user.alpha = -1*e.alpha;
             onDeviceMove(user.alpha);
         })
         hide("popup");
