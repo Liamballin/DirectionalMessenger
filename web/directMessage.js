@@ -340,7 +340,8 @@ var io = io();
             textboxColor();
         })
 
-        setCompass();   //add event listeners
+        // setCompass();   //add event listeners
+        show("popup");
         setButtons();
         renderChat();   //create initial html elements 
         renderButton() // start button states
