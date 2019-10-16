@@ -273,6 +273,9 @@ var io = io();
         window.addEventListener("deviceorientation",(e)=>{
             user.alpha = -1*e.alpha;
             onDeviceMove(user.alpha);
+            if(!user.androidHeadingSet){
+                renderChat();
+            }
         })
         hide("popup");
         user.androidHeadingSet = true;
