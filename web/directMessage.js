@@ -244,7 +244,7 @@ var io = io();
         })      
     }
 
-    function confirmHeading(){
+    function confirmHeadingOld(){
         var reading;
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
@@ -264,14 +264,18 @@ var io = io();
         document.getElementById("info_hea").innerHTML = "Hea: "+user.alpha;
             onDeviceMove(user.alpha)
         }); //remove true? 
-
-        
-
         hide("popup");
         user.androidHeadingSet = true;
-        
+    
+    }
 
-        
+    function confirmHeading(){
+        window.addEventListener("deviceorientation",(e)=>{
+            user.alpha = e.alpha;
+            onDeviceMove(user.alpha);
+        })
+        hide("popup");
+        user.androidHeadingSet = true;
     }
 
     function onDeviceMove(alpha){
