@@ -34,18 +34,33 @@ body {
 #popupIcon{
     width:30vw;
     left:35vw;
-    top:50vh;
+    top:69vh;
     position: absolute;
 }
 
 #popupTitle{
     position: absolute;
     color:white;
-    font-size:5vw;
+    font-size:7vw;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     width:100vw;
-    top:30vh;
+    top:40vh;
+}
+#popupGraphic{
+    width:50vw;
+    left:25vw;
+    top:10vh;
+    position: absolute;
+}
+#popupSubtitle{
+    position: absolute;
+    color:white;
+    font-size:4vw;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    width:100vw;
+    top:60vh;
 }
 
 #chatParent{
