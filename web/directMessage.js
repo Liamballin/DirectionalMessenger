@@ -368,7 +368,7 @@ var io = io();
     }
 
     function setPips(){
-        document.getElementById("pipParent").innerHTML = "";
+        //document.getElementById("pipParent").innerHTML = "";
         var flip = false;
         for(i = 0; i < user.chats.length;i++){
           
