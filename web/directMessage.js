@@ -6,7 +6,9 @@ var io = io();
         alpha:0,
         chats:[],
         visibleThresh:20,
-        activeChat:""
+        activeChat:"",
+        offset:undefined,
+        androidHeadingSet:false,
     }
 
     const bStates = Object.freeze({
@@ -191,7 +193,9 @@ var io = io();
             if (typeof event.webkitCompassHeading !== "undefined") {
                 // console.log("Adding magnetic compass listener")
                 var    alpha = event.webkitCompassHeading; 
-
+                // if(!user.androidHeadingSet){
+                //     show("popup")
+                // }
                 onDeviceMove(alpha)
             }else{
                 if(typeof window.DeviceOrientationEvent !== "undefined"){
@@ -199,6 +203,9 @@ var io = io();
                     // if(!headingSet){
                     //     showPopup(true)
                     // }
+                    if(!user.androidHeadingSet){
+                        show("popup")
+                    }
                 // console.log("adding scroll listener")
                 window.addEventListener("wheel", (event)=>{
                     var delta = Math.sign(event.deltaY);
@@ -235,6 +242,30 @@ var io = io();
                 }
             }
         })      
+    }
+
+    function confirmHeading(){
+        window.addEventListener("deviceorientation", (e)=>{
+            // alert(offset)
+            if(user.offset){
+                let a = (-(e.alpha)+(user.offset)) 
+                if(a>=360){
+                    a -= 360
+                }else if(a < 0){
+                    a += 360;
+                }
+                alpha = a;
+            }else{
+                user.offset = e.alpha;
+            }
+            onDeviceMove(alpha)
+        }, true); //change to call onDeviceMove
+        // showPopup(false)
+        hide("popup");
+        user.androidHeadingSet = true;
+        // headingSet = true;
+
+        
     }
 
     function onDeviceMove(alpha){
@@ -295,6 +326,10 @@ var io = io();
         window.addEventListener("offline",()=>{
             console.log("Client recognizes offline")
             window.location.href = "/offline";
+        })
+        hide("popup")
+        document.getElementById("popupIcon").addEventListener("click", ()=>{
+            confirmHeading();
         })
 
         document.getElementById("qMark").addEventListener("click",()=>{
@@ -423,13 +458,13 @@ var io = io();
     function hide(id){
         document.getElementById(id).style.display = "none";
         document.getElementById(id).style.pointerEvents = "none";
-        document.getElementById(id).style.zIndex = "50";
+        // document.getElementById(id).style.zIndex = "50";
 
     }
     function show(id){
         document.getElementById(id).style.display = "block";
         document.getElementById(id).style.pointerEvents = "all";
-        document.getElementById(id).style.zIndex = "-50";
+        // document.getElementById(id).style.zIndex = "-50";
 
     }
 

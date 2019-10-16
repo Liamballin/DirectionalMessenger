@@ -23,6 +23,31 @@ body {
     margin-left:-1vw;
 }
 
+#popup{
+    width:100vw;
+    height:100vh;
+    background-color: rgba(0, 0, 00, 0.8);
+    z-index:6969;
+    position: absolute;
+}
+
+#popupIcon{
+    width:30vw;
+    left:35vw;
+    top:50vh;
+    position: absolute;
+}
+
+#popupTitle{
+    position: absolute;
+    color:white;
+    font-size:5vw;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    width:100vw;
+    top:30vh;
+}
+
 #chatParent{
     /* border: 3px solid red; */
     width:100vw;
@@ -132,6 +157,25 @@ body {
 
 }
 
+#buttonModeOpen{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+#buttonModeEmpty{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+#buttonModeLoaded{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
 #editButton{
     width: 10vw;
     position: absolute;
@@ -167,10 +211,10 @@ body {
     margin-left: 3vw;
     margin-top:1vh;
     padding-left: 5vw;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 .tbBlack{
