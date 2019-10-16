@@ -196,7 +196,7 @@ var io = io();
                 if(!user.androidHeadingSet){
                     show("popup")
                 }
-                onDeviceMove(alpha)
+                // onDeviceMove(alpha)
             }else{
                 if(typeof window.DeviceOrientationEvent !== "undefined"){
                     //android
@@ -245,8 +245,10 @@ var io = io();
     }
 
     function confirmHeading(){
+        var reading;
         window.addEventListener("deviceorientation", (e)=>{
             // alert(offset)
+            reading = e.alpha;
             if(user.offset == undefined){
                 user.offset = getDistance(e.alpha, 0);
             }
@@ -257,9 +259,14 @@ var io = io();
                     a += 360;
                 }
                 user.alpha = a;
+                document.getElementById("info_acc").innerHTML = "Acc: "+reading;
+        document.getElementById("info_off").innerHTML = "Off: "+user.offset;
+        document.getElementById("info_hea").innerHTML = "Hea: "+user.alpha;
             onDeviceMove(user.alpha)
         }); //remove true? 
+
         
+
         hide("popup");
         user.androidHeadingSet = true;
         
