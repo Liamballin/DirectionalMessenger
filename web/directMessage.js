@@ -382,6 +382,8 @@ var io = io();
     }
 
     function setPips(){
+        document.getElementById("pipParent").innerHTML = "";
+
         for(i = 0; i < user.chats.length;i++){
 
 
@@ -404,7 +406,6 @@ var io = io();
                 
 
                 
-                document.getElementById("pipParent").innerHTML = "";
                 document.getElementById("pipParent").appendChild(p);
                 document.getElementById("pipParent").appendChild(pO);
         }
