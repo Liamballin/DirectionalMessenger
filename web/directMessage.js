@@ -272,7 +272,7 @@ var io = io();
     function confirmHeading(){
         window.addEventListener("deviceorientation",(e)=>{
             // user.alpha = -1*e.alpha;
-            var alpha = -1*e.alpha;
+            var alpha = circularize(-1*e.alpha);
             if(!user.androidHeadingSet){
                 renderChat();
             }
