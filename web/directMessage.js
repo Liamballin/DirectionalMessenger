@@ -185,9 +185,9 @@ var io = io();
     //     }
     function setCompass(){
         //! FOR FLICK MOVEMENT DETECTION
-        if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', deviceMotionHandler);
-          }
+        // if (window.DeviceMotionEvent) {
+        //     window.addEventListener('devicemotion', deviceMotionHandler);
+        //   }
 
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
@@ -259,7 +259,7 @@ var io = io();
                     a += 360;
                 }
                 user.alpha = a;
-                document.getElementById("info_acc").innerHTML = "Acc: "+reading;
+        document.getElementById("info_acc").innerHTML = "Acc: "+reading;
         document.getElementById("info_off").innerHTML = "Off: "+user.offset;
         document.getElementById("info_hea").innerHTML = "Hea: "+user.alpha;
             onDeviceMove(user.alpha)
@@ -382,9 +382,9 @@ var io = io();
     }
 
     function setPips(){
-        document.getElementById("pipParent").innerHTML = "";
-        var flip = false;
         for(i = 0; i < user.chats.length;i++){
+
+
           
                 var heading = user.chats[i].heading;
                 var headingO = getOppAngle(heading); 
@@ -394,18 +394,19 @@ var io = io();
                 p.src = "images/pip.png";
                 p.style.transform = "rotate("+heading+"deg)";
                 p.id = heading;
-                document.getElementById("pipParent").appendChild(p);
+                
 
                 var pO = document.createElement("img");
                 pO.className = "pip";
                 pO.src = "images/pip.png";
                 pO.style.transform = "rotate("+headingO+"deg)";
                 pO.id = headingO;
-                document.getElementById("pipParent").appendChild(pO);
+                
 
                 
-            
-
+                document.getElementById("pipParent").innerHTML = "";
+                document.getElementById("pipParent").appendChild(p);
+                document.getElementById("pipParent").appendChild(pO);
         }
     }
 
