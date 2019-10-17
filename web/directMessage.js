@@ -192,11 +192,11 @@ var io = io();
         window.addEventListener('deviceorientation', function(event) {
             if (typeof event.webkitCompassHeading !== "undefined") {
                 // console.log("Adding magnetic compass listener")
-                // var    alpha = event.webkitCompassHeading; 
-                if(!user.androidHeadingSet){
-                    show("popup")
-                }
-                // onDeviceMove(alpha)
+                var    alpha = event.webkitCompassHeading; 
+                // if(!user.androidHeadingSet){
+                //     show("popup")
+                // }
+                onDeviceMove(alpha)
             }else{
                 if(typeof window.DeviceOrientationEvent !== "undefined"){
                     //android
