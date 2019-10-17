@@ -9,6 +9,7 @@ var io = io();
         activeChat:"",
         offset:undefined,
         androidHeadingSet:false,
+        fadeOutMs:30000
     }
 
     const bStates = Object.freeze({
@@ -354,6 +355,8 @@ var io = io();
             textboxColor();
         })
 
+        setInterval(updateMessageOpacity, 500);
+
         // setCompass();   //add event listeners
         show("popup");
         setButtons();
@@ -420,8 +423,33 @@ var io = io();
             return c;
     }
 
-    function renderChat(){
+    function updateMessageOpacity(){
+
         var currentTime = new Date();
+
+        if(user.chats.length > 0){
+
+            for(c = 0; c < user.chats.length;c++){
+                for(i = 0; i< user.chats[c].messages.length;i++){
+                    var age = currentTime - new Date(user.chats[c].messages[i].time);
+                    // if(age > )
+                    var opacity = inter(age,user.fadeOutMs,0,0,1)
+                    if(document.getElementById(user.chats[c].messages[i].id)){
+                    if(opacity < 0){
+                        document.getElementById(user.chats[c].messages[i].id).style.opacity = 0;
+                    }else{
+                        document.getElementById(user.chats[c].messages[i].id).style.opacity = opacity;
+                    }
+                }
+                    
+                    console.log(opacity)
+                }
+            }
+    }
+    }
+
+    function renderChat(){
+      
             document.getElementById("chatParent").innerHTML  = "";
         if(user.chats.length>0){
 
@@ -430,7 +458,6 @@ var io = io();
             var c = createChatElement(currentChat.id);
             c.className = "chatElement"
 
-            var latestMessage;
 
             if(currentChat.messages){ //check if chat has any messages to render
                 var start = 0;
@@ -444,18 +471,19 @@ var io = io();
                     var t=  document.createTextNode(currentChat.messages[i].text);
 
                     var container = document.createElement("div");
+                    container.id = currentChat.messages[i].id;
                     if(currentChat.messages[i].sender == user.name){
                         container.className = "message sent";
                     }else{
                         container.className = "message receive";
                     }
 
-                    var age = currentTime - currentChat.messages[i].time;
-                    container.style.opacity = inter(age,0,3000,0,1);
+                   
 
 
                     container.appendChild(t);
                     c.appendChild(container);
+                    // updateMessageOpacity()
             }
         }else{
             // console.log("No messages");
@@ -467,6 +495,7 @@ var io = io();
     setActiveChat();    //update opacities
         setPips();
         rotateCompass();
+        updateMessageOpacity()
     }
     }
 
