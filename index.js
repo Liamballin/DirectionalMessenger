@@ -43,8 +43,9 @@ class User{
 
         this.socket.on("disconnect",()=>{
             // console.log("Disconnected "+this.name);
-            this.connected = false;
+            // this.connected = false;
             console.log(this.name+" DISCONNECTED")
+            users = removeModel(users,this)
         })
 
     }
@@ -70,6 +71,17 @@ function cleanUsers(){
     // console.log("Removed "+removed+" users")
     // console.log(users.length+" users online")
 }
+
+function removeModel(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+  }
 
 function syncChats(newChat){
     for(nc = 0; nc< newChat.length;nc++){   //iterator for newChats
