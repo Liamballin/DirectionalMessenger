@@ -421,6 +421,7 @@ var io = io();
     }
 
     function renderChat(){
+        var currentTime = new Date();
             document.getElementById("chatParent").innerHTML  = "";
         if(user.chats.length>0){
 
@@ -428,6 +429,8 @@ var io = io();
             var currentChat = user.chats[ci];
             var c = createChatElement(currentChat.id);
             c.className = "chatElement"
+
+            var latestMessage;
 
             if(currentChat.messages){ //check if chat has any messages to render
                 var start = 0;
@@ -437,17 +440,22 @@ var io = io();
                 }
             
                 for(i = start; i < currentChat.messages.length;i++){
-                // var t=  document.createTextNode(currentChat.messages[i].sender+":   "+currentChat.messages[i].text);
-                var t=  document.createTextNode(currentChat.messages[i].text);
+                    // var t=  document.createTextNode(currentChat.messages[i].sender+":   "+currentChat.messages[i].text);
+                    var t=  document.createTextNode(currentChat.messages[i].text);
 
-                var container = document.createElement("div");
-                if(currentChat.messages[i].sender == user.name){
-                    container.className = "message sent";
-                }else{
-                    container.className = "message receive";
-                }
-                container.appendChild(t);
-                c.appendChild(container);
+                    var container = document.createElement("div");
+                    if(currentChat.messages[i].sender == user.name){
+                        container.className = "message sent";
+                    }else{
+                        container.className = "message receive";
+                    }
+
+                    var age = currentTime - currentChat.messages[i].time;
+                    container.style.opacity = inter(age,0,3000,0,1);
+
+
+                    container.appendChild(t);
+                    c.appendChild(container);
             }
         }else{
             // console.log("No messages");
