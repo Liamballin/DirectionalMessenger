@@ -271,11 +271,12 @@ var io = io();
 
     function confirmHeading(){
         window.addEventListener("deviceorientation",(e)=>{
-            user.alpha = -1*e.alpha;
-            onDeviceMove(user.alpha);
+            // user.alpha = -1*e.alpha;
+            var alpha = -1*e.alpha;
             if(!user.androidHeadingSet){
                 renderChat();
             }
+            onDeviceMove(alpha);
         })
         hide("popup");
         user.androidHeadingSet = true;
