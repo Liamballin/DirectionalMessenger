@@ -353,8 +353,8 @@ var io = io();
             textboxColor();
         })
 
-        setCompass();   //add event listeners
-        // show("popup");
+        // setCompass();   //add event listeners
+        show("popup");
         setButtons();
         renderChat();   //create initial html elements 
         renderButton() // start button states
@@ -385,8 +385,6 @@ var io = io();
         document.getElementById("pipParent").innerHTML = "";
 
         for(i = 0; i < user.chats.length;i++){
-
-
           
                 var heading = user.chats[i].heading;
                 var headingO = getOppAngle(heading); 
