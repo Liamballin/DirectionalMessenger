@@ -9,7 +9,7 @@ var io = io();
         activeChat:"",
         offset:undefined,
         androidHeadingSet:false,
-        fadeOutMs:30000
+        fadeOutMs:20000
     }
 
     const bStates = Object.freeze({
@@ -99,16 +99,10 @@ var io = io();
     }
 
     function chatIndexFromId(id){
-        // console.log("Hello from chatIndex finder")
         for(i =0;i<user.chats.length;i++){
-            // console.log("at loop "+i)
             if(user.chats[i].id === id){
-                // console.log("Match with "+user.chats[i].id+" and "+id);
-
                 return i;
             }
-            // console.log("No match")
-            // console.log(user.chats[i].id+" and "+id);
         }
         return false;   //if chat not found
     }
@@ -169,21 +163,7 @@ var io = io();
         
     }
 
-    // function setCompass(){
-    //     console.log("Adding device listener")
-    //         window.addEventListener("wheel", (event)=>{
-    //                     var delta = Math.sign(event.deltaY);
-    //                     var alpha = user.alpha;
-    //                     alpha += delta*2;
-    //                     if(alpha >= 360){
-    //                         alpha = 0;
-    //                     }else if(alpha < 0){
-    //                         alpha = 360;
-    //                     }
-    //                     onDeviceMove(alpha)
 
-    //                 })
-    //     }
     function setCompass(){
         //! FOR FLICK MOVEMENT DETECTION
         // if (window.DeviceMotionEvent) {
@@ -430,23 +410,56 @@ var io = io();
         if(user.chats.length > 0){
 
             for(c = 0; c < user.chats.length;c++){
+                var latest = undefined;
+                
                 for(i = 0; i< user.chats[c].messages.length;i++){
                     var age = currentTime - new Date(user.chats[c].messages[i].time);
                     // if(age > )
                     var opacity = inter(age,user.fadeOutMs,0,0,1)
-                    if(document.getElementById(user.chats[c].messages[i].id)){
-                    if(opacity < 0){
-                        document.getElementById(user.chats[c].messages[i].id).style.opacity = 0;
-                    }else{
-                        document.getElementById(user.chats[c].messages[i].id).style.opacity = opacity;
-                    }
-                }
                     
+                    if(document.getElementById(user.chats[c].messages[i].id)){
+                        if(opacity < 0){
+                            document.getElementById(user.chats[c].messages[i].id).style.opacity = 0;
+                        }else{
+                            document.getElementById(user.chats[c].messages[i].id).style.opacity = opacity;
+                        }
+                    }
+                    if(opacity > latest || latest == undefined){
+                        latest = opacity;
+                    }
+
                     console.log(opacity)
                 }
+
+                var pip1 = document.getElementById(user.chats[c].heading);
+                var pip2 = document.getElementById(getOppAngle(user.chats[c].heading))
+                pip1.style.opacity = latest;
+                pip2.style.opacity = latest;
+
+                if(latest <= 0){
+                    deleteChat(user.chats[c])
+                    serverSync()
+                }
+
             }
+        }
     }
+
+    function deleteChat(chatObject){
+        user.chats = removeModel(user.chats, chatObject);
+        renderChat()
     }
+
+    function removeModel(arr) {
+        var what, a = arguments, L = a.length, ax;
+        while (L > 1 && arr.length) {
+            what = a[--L];
+            while ((ax= arr.indexOf(what)) !== -1) {
+                arr.splice(ax, 1);
+            }
+        }
+        return arr;
+      }
 
     function renderChat(){
       
