@@ -323,6 +323,7 @@ var io = io();
             window.location.href = "/offline";
         })
         hide("popup")
+        hide("flickInfo")
         document.getElementById("popupIcon").addEventListener("click", ()=>{
             confirmHeading();
         })
@@ -545,17 +546,20 @@ var io = io();
             hide(buttonModes.loaded);
             show(buttonModes.empty);
             show(buttonModes.dial)
+            hide("flickInfo")
         }else if(state == bStates.open){
             show(buttonModes.open);
             hide(buttonModes.loaded);
             hide(buttonModes.empty);
             hide(buttonModes.dial);
+            hide("flickInfo")
             document.getElementById("openTextbox").focus();
         }else if(state == bStates.loaded){
             hide(buttonModes.open);
             show(buttonModes.loaded);
             hide(buttonModes.empty);
             show(buttonModes.dial)
+            show("flickInfo")
         }
 
     }

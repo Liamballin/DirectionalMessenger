@@ -30,6 +30,29 @@ body {
     font-size:6vw;
 }
 
+#flickInfo{
+    position: absolute;
+    /* opacity: 0; */
+}
+
+#flickGif{
+    position: absolute;
+    width:40vw;
+    top:20vh;
+    left:30vw;
+}
+
+#flickText{
+    width:100vw;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top:50vh;
+    font-weight: 300;
+    font-size:5vw;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #popup{
     width:100vw;
     height:100vh;
