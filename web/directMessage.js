@@ -251,14 +251,38 @@ var io = io();
     }
 
     function confirmHeading(){
-        window.addEventListener("deviceorientation",(e)=>{
-            // user.alpha = -1*e.alpha;
-            var alpha = circularize(-1*e.alpha);
-            if(!user.androidHeadingSet){
-                renderChat();
-            }
-            onDeviceMove(alpha);
-        })
+
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+.then(response => {
+  if (response == 'granted') {
+    window.addEventListener('deviceorientation', (e) => {
+        var alpha = circularize(-1*e.alpha);
+        if(!user.androidHeadingSet){
+            renderChat();
+        }
+        onDeviceMove(alpha);
+    })
+  }
+})
+.catch(console.error)
+          } else {
+            window.addEventListener("deviceorientation",(e)=>{
+                // user.alpha = -1*e.alpha;
+                var alpha = circularize(-1*e.alpha);
+                if(!user.androidHeadingSet){
+                    renderChat();
+                }
+                onDeviceMove(alpha);
+            })
+          }
+
+
+
+
+
+
+
         hide("popup");
         user.androidHeadingSet = true;
     }
