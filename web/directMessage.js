@@ -289,6 +289,7 @@ var io = io();
             setTimeout(()=>{
                 if(!user.phoneMoved && navigator.userAgent.match(/CriOS/) == null){
                     show("safariSettings")
+                    hide("page")
                     // alert(navigator.userAgent)
     
                 }
