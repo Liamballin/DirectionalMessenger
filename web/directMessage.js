@@ -298,7 +298,7 @@ var io = io();
         setActiveChat();
     }
 
-    var threshold = 150;
+    var threshold = 60;
     function deviceMotionHandler(event){
         let a = event.rotationRate.beta;
         if(a > threshold && buttonState.state == bStates.loaded){
