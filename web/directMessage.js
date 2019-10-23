@@ -263,6 +263,8 @@ var io = io();
                 .then(response => {
                 if (response == 'granted') {
                     window.addEventListener('deviceorientation', (e) => {
+                        user.phoneMoved = true;
+
                         var alpha = circularize(-1*e.alpha);
                         if(!user.androidHeadingSet){
                             renderChat();
@@ -283,6 +285,13 @@ var io = io();
                 }
                 onDeviceMove(alpha);
             })
+            setTimeout(()=>{
+                if(!user.phoneMoved && navigator.userAgent.match(/CriOS/) == null){
+                    show("safariSettings")
+                    // alert(navigator.userAgent)
+    
+                }
+            }, 1000)
           }
 
 
@@ -303,7 +312,6 @@ var io = io();
 
     var threshold = 60;
     function deviceMotionHandler(event){
-        user.phoneMoved = true;
         let a = event.rotationRate.beta;
         if(a > threshold && buttonState.state == bStates.loaded){
             sendMessage();
@@ -357,14 +365,10 @@ var io = io();
        }
 
     function loaded(){
+        hide("safariSettings");
 
-        setTimeout(()=>{
-            if(!user.phoneMoved && navigator.userAgent.match(/CriOS/) == null){
-                show("safariSettings")
-            }
-        }, 1000)
         window.addEventListener("offline",()=>{
-            console.log("Client recognizes offline")
+            // console.log("Client recognizes offline")
             window.location.href = "/offline";
         })
         hide("popup")
