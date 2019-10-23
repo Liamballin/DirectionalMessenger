@@ -226,47 +226,51 @@ var io = io();
         })      
     }
 
-    function confirmHeadingOld(){
-        var reading;
-        window.addEventListener("deviceorientation", (e)=>{
-            // alert(offset)
-            reading = e.alpha;
-            if(user.offset == undefined){
-                user.offset = getDistance(e.alpha, 0);
-            }
-            let a = (-(e.alpha)+(user.offset)) 
-                if(a>=360){
-                    a -= 360
-                }else if(a < 0){
-                    a += 360;
-                }
-                user.alpha = a;
-        document.getElementById("info_acc").innerHTML = "Acc: "+reading;
-        document.getElementById("info_off").innerHTML = "Off: "+user.offset;
-        document.getElementById("info_hea").innerHTML = "Hea: "+user.alpha;
-            onDeviceMove(user.alpha)
-        }); //remove true? 
-        hide("popup");
-        user.androidHeadingSet = true;
+    // function confirmHeadingOld(){
+    //     var reading;
+    //     window.addEventListener("deviceorientation", (e)=>{
+    //         // alert(offset)
+    //         reading = e.alpha;
+    //         if(user.offset == undefined){
+    //             user.offset = getDistance(e.alpha, 0);
+    //         }
+    //         let a = (-(e.alpha)+(user.offset)) 
+    //             if(a>=360){
+    //                 a -= 360
+    //             }else if(a < 0){
+    //                 a += 360;
+    //             }
+    //             user.alpha = a;
+    //     document.getElementById("info_acc").innerHTML = "Acc: "+reading;
+    //     document.getElementById("info_off").innerHTML = "Off: "+user.offset;
+    //     document.getElementById("info_hea").innerHTML = "Hea: "+user.alpha;
+    //         onDeviceMove(user.alpha)
+    //     }); //remove true? 
+    //     hide("popup");
+    //     user.androidHeadingSet = true;
     
-    }
+    // }
 
     function confirmHeading(){
 
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', deviceMotionHandler);
+          }
+
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
-.then(response => {
-  if (response == 'granted') {
-    window.addEventListener('deviceorientation', (e) => {
-        var alpha = circularize(-1*e.alpha);
-        if(!user.androidHeadingSet){
-            renderChat();
-        }
-        onDeviceMove(alpha);
-    })
-  }
-})
-.catch(console.error)
+                .then(response => {
+                if (response == 'granted') {
+                    window.addEventListener('deviceorientation', (e) => {
+                        var alpha = circularize(-1*e.alpha);
+                        if(!user.androidHeadingSet){
+                            renderChat();
+                        }
+                        onDeviceMove(alpha);
+                    })
+                }
+                })
+                .catch(console.error)
           } else {
             window.addEventListener("deviceorientation",(e)=>{
                 // user.alpha = -1*e.alpha;
