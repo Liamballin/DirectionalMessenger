@@ -60,7 +60,7 @@ var io = io();
     }
 
     function sendMessage(){
-
+        renderChat()
         var message = {
   
             sender:user.name,
@@ -307,8 +307,14 @@ var io = io();
         var tb = document.getElementById("openTextbox");
         if(tb.value.length > 0){
             tb.className = "tbRed"
+            document.getElementById("buttonOpenRed").style.opacity = 1;
+            document.getElementById("buttonOpen").style.opacity = 0;
+
+
         }else{
             tb.className = "tbBlack"
+            document.getElementById("buttonOpenRed").style.opacity = 0;
+            document.getElementById("buttonOpen").style.opacity = 1;
         }
     }
 
@@ -374,7 +380,7 @@ var io = io();
 
     function setButtons(){
 
-        document.getElementById("buttonOpen").addEventListener("click", ()=>{
+        document.getElementById("buttonOpenRed").addEventListener("click", ()=>{
             button()
         })
         document.getElementById("buttonLoaded").addEventListener("click", ()=>{
