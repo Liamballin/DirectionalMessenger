@@ -389,7 +389,8 @@ var io = io();
             button()
         })
         document.getElementById("buttonLoaded").addEventListener("click", ()=>{
-            button()
+            // button()
+            show("flickInfo")
         })
         document.getElementById("buttonEmpty").addEventListener("click", ()=>{
             button()
@@ -464,7 +465,7 @@ var io = io();
                         latest = opacity;
                     }
 
-                    console.log(opacity)
+                    // console.log(opacity)
                 }
 
                 var pip1 = document.getElementById(user.chats[c].heading);
