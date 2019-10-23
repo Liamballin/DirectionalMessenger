@@ -101,6 +101,27 @@ body {
     margin-top:10vh;
 }
 
+#instructions{
+    position: absolute;
+    /* overflow: scroll; */
+    /* border: 1px solid red; */
+    width:100vw;
+    height:70vh;
+    left:7vw;
+    margin-top:10vh;
+}
+
+#safariSettings{
+    width:100vw;
+    height: auto;
+    top:2vh;
+    z-index: 69700000;
+    position: absolute;
+    background-color: black;
+    opacity: 0;
+    pointer-events: none;
+}
+
 .chatElement{
     position: absolute;
     /* overflow: scroll; */

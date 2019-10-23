@@ -10,7 +10,8 @@ var io = io();
         offset:undefined,
         androidHeadingSet:false,
         fadeOutMs:20000,
-        flickInfoShown:false
+        flickInfoShown:false,
+        phoneMoved:false
     }
 
     const bStates = Object.freeze({
@@ -272,6 +273,8 @@ var io = io();
                 })
                 .catch(console.error)
           } else {
+
+
             window.addEventListener("deviceorientation",(e)=>{
                 // user.alpha = -1*e.alpha;
                 var alpha = circularize(-1*e.alpha);
@@ -300,6 +303,7 @@ var io = io();
 
     var threshold = 60;
     function deviceMotionHandler(event){
+        user.phoneMoved = true;
         let a = event.rotationRate.beta;
         if(a > threshold && buttonState.state == bStates.loaded){
             sendMessage();
@@ -353,6 +357,12 @@ var io = io();
        }
 
     function loaded(){
+
+        setTimeout(()=>{
+            if(!user.phoneMoved && navigator.userAgent.match(/CriOS/) == null){
+                show("safariSettings")
+            }
+        }, 1000)
         window.addEventListener("offline",()=>{
             console.log("Client recognizes offline")
             window.location.href = "/offline";
