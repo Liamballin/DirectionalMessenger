@@ -9,7 +9,8 @@ var io = io();
         activeChat:"",
         offset:undefined,
         androidHeadingSet:false,
-        fadeOutMs:20000
+        fadeOutMs:20000,
+        flickInfoShown:false
     }
 
     const bStates = Object.freeze({
@@ -589,7 +590,10 @@ var io = io();
             show(buttonModes.loaded);
             hide(buttonModes.empty);
             show(buttonModes.dial)
-            show("flickInfo")
+            if(!user.flickInfoShown){
+                show("flickInfo")
+                user.flickInfoShown = true;
+            }
         }
 
     }
