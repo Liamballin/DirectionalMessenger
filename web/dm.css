@@ -63,7 +63,7 @@ body {
 
 #popupIcon{
     width:30vw;
-    left:35vw;
+    left:34vw;
     top:69vh;
     /* top:10vh; */
     position: absolute;
@@ -237,8 +237,18 @@ body {
     position: absolute;
     width:18vw;
     height:auto;
+    /* padding-bottom:2vh; */
+    top:-0.4vh;
+    right:1vw;
+}
+
+#buttonOpenRed{
+    position: absolute;
+    width:18vw;
+    height:auto;
     bottom:0.05vh;
     right:2.5vw;
+    opacity:0;
 }
 
 #openBackground{
