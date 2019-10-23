@@ -283,6 +283,7 @@ var io = io();
                 if(!user.androidHeadingSet){
                     renderChat();
                 }
+                user.phoneMoved = true;
                 onDeviceMove(alpha);
             })
             setTimeout(()=>{
